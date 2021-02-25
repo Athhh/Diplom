@@ -24,7 +24,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -73,7 +73,7 @@
        <item>
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Выберите матриал</string>
+          <string>Выберите матриал:</string>
          </property>
         </widget>
        </item>
@@ -94,6 +94,13 @@
            <string>Железо</string>
           </property>
          </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="choose">
+         <property name="text">
+          <string>Выбрать</string>
+         </property>
         </widget>
        </item>
       </layout>

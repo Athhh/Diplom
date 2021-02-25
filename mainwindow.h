@@ -26,6 +26,8 @@ private slots:
 
     void mouseWheel();
 
+    double on_choose_clicked();
+
 private:
     Ui::MainWindow *ui;
     double leftX,rightX;

@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->widget->plotLayout()->insertRow(0);
-    QCPTextElement *title = new QCPTextElement(ui->widget, "График зависимости интенсивности от материала", QFont("sans", 18, QFont::Bold));
+    QCPTextElement *title = new QCPTextElement(ui->widget, "График зависимости интенсивности от энергии", QFont("sans", 18, QFont::Bold));
     ui->widget->plotLayout()->addElement(0, 0, title);
 
     ui->widget->setInteraction(QCP::iRangeDrag, true);
@@ -63,9 +63,11 @@ void MainWindow::on_plot_clicked()
     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
     {
         x[i] = X;
-        y[i] = X*X;
+        y[i] = X*X+on_choose_clicked();
         i++;
     }
+    x[i]=b;
+    y[i]=b*b+on_choose_clicked();
 
     //Отрисовка графика
 
@@ -97,4 +99,24 @@ void MainWindow::mouseWheel()
     ui->widget->axisRect()->setRangeZoom(ui->widget->yAxis->orientation());
     else
     ui->widget->axisRect()->setRangeZoom(Qt::Horizontal|Qt::Vertical);
+}
+
+double MainWindow::on_choose_clicked()
+{
+    QString func = ui->material->currentText();
+    int n;
+    if (func == "Медь")
+    {
+        n = 1;
+    }
+    if (func == "Алюминий")
+    {
+        n = 2;
+    }
+    if (func == "Железо")
+    {
+        n = 3;
+    }
+
+    return n;
 }
