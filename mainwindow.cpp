@@ -6,16 +6,16 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+//Название графика
     ui->widget->plotLayout()->insertRow(0);
     QCPTextElement *title = new QCPTextElement(ui->widget, "График зависимости интенсивности от энергии", QFont("sans", 18, QFont::Bold));
     ui->widget->plotLayout()->addElement(0, 0, title);
-
+//Перетаскивание графика
     ui->widget->setInteraction(QCP::iRangeDrag, true);
-
+//Название осей
     ui->widget->xAxis->setLabel("Энергия");
     ui->widget->yAxis->setLabel("Интенсивность");
-
+//Приближение графика
     ui->widget->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes);
     connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
 }
@@ -24,7 +24,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-//test
 
 double MainWindow::on_acc_editingFinished()
 {
@@ -50,7 +49,7 @@ void MainWindow::on_plot_clicked()
     double b = on_rightX_editingFinished();
     double h = on_acc_editingFinished();
 
-    //Количество отрисовываемых точек
+//Количество отрисовываемых точек
 
     double N = (b-a)/(h)+1;
 
@@ -58,7 +57,8 @@ void MainWindow::on_plot_clicked()
 
     QVector<double> x(N), y(N);
 
-    //Вычисляем наши данные
+//Вычисляем наши данные
+
     int i=0;
     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
     {
@@ -69,7 +69,7 @@ void MainWindow::on_plot_clicked()
     x[i]=b;
     y[i]=b*b+on_choose_clicked();
 
-    //Отрисовка графика
+//Отрисовка графика
 
     ui->widget->clearGraphs();
     ui->widget->addGraph();
@@ -120,3 +120,4 @@ double MainWindow::on_choose_clicked()
 
     return n;
 }
+
