@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <qcustomplot.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,8 +29,14 @@ private slots:
 
     double on_choose_clicked();
 
+    void slotMousePress(QMouseEvent * event);
+
+    void slotMouseMove(QMouseEvent * event);
+
 private:
     Ui::MainWindow *ui;
+    QCPCurve *verticalLine;
+    QCPItemTracer *tracer;
     double leftX,rightX;
 };
 #endif // MAINWINDOW_H

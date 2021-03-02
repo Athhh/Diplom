@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <qcustomplot.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,6 +19,11 @@ MainWindow::MainWindow(QWidget *parent)
 //Приближение графика
     ui->widget->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes);
     connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
+//Трейсер
+    verticalLine = new QCPCurve(ui->widget->xAxis, ui->widget->yAxis);
+
+    connect(ui->widget, &QCustomPlot::mousePress, this, &MainWindow::slotMousePress);
+    connect(ui->widget, &QCustomPlot::mouseMove, this, &MainWindow::slotMouseMove);
 }
 
 MainWindow::~MainWindow()
@@ -74,6 +80,9 @@ void MainWindow::on_plot_clicked()
     ui->widget->clearGraphs();
     ui->widget->addGraph();
 
+    tracer = new QCPItemTracer(ui->widget);
+    tracer->setGraph(ui->widget->graph(0));
+
     ui->widget->graph(0)->setData(x, y);
 
     ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
@@ -120,4 +129,27 @@ double MainWindow::on_choose_clicked()
 
     return n;
 }
-//test
+
+void MainWindow::slotMouseMove(QMouseEvent *event)
+{
+    if(QApplication::mouseButtons()) slotMousePress(event);
+}
+void MainWindow::slotMousePress(QMouseEvent *event)
+{
+    // Определяем координату X на графике, где был произведён клик мышью
+    double coordX = ui->widget->xAxis->pixelToCoord(event->pos().x());
+
+    // По координате X клика мыши определим ближайшие координаты для трассировщика
+    tracer->setGraphKey(coordX);
+
+    tracer->setStyle(QCPItemTracer::tsPlus);
+
+    tracer->updatePosition();
+
+    // Выводим координаты точки графика, где установился трассировщик, в lineEdit
+
+    ui->lineEdit->setText("x: " + QString::number(tracer->position->key()) +
+                          " y: " + QString::number(tracer->position->value()));
+
+    ui->widget->replot(); // Перерисовываем содержимое полотна графика
+}
