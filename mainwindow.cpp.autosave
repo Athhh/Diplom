@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 //Название графика
     ui->widget->plotLayout()->insertRow(0);
-    QCPTextElement *title = new QCPTextElement(ui->widget, "График зависимости интенсивности от энергии", QFont("sans", 12, QFont::Bold));
+    QCPTextElement *title = new QCPTextElement(ui->widget, "График зависимости интенсивности от энергии", QFont("sans", 18, QFont::Bold));
     ui->widget->plotLayout()->addElement(0, 0, title);
 //Перетаскивание графика
     ui->widget->setInteraction(QCP::iRangeDrag, true);
@@ -17,13 +17,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->widget->xAxis->setLabel("Энергия");
     ui->widget->yAxis->setLabel("Интенсивность");
 //Приближение графика
-    ui->widget->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes);
+    ui->widget->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
     connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
 //Трейсер
-    verticalLine = new QCPCurve(ui->widget->xAxis, ui->widget->yAxis);
-
     connect(ui->widget, &QCustomPlot::mousePress, this, &MainWindow::slotMousePress);
     connect(ui->widget, &QCustomPlot::mouseMove, this, &MainWindow::slotMouseMove);
+//Легенда
+    ui->widget->legend->setVisible(true);
+    QFont legendFont = font();
+    legendFont.setPointSize(10);
+    ui->widget->legend->setSelectedFont(legendFont);
+    ui->widget->legend->setSelectableParts(QCPLegend::spItems);
 }
 
 MainWindow::~MainWindow()
@@ -61,7 +65,7 @@ void MainWindow::on_plot_clicked()
 
     N = round(N);
 
-    QVector<double> x(N), y(N);
+    QVector<double> x(N), y0(N), y1(N);
 
 //Вычисляем наши данные
 
@@ -69,30 +73,41 @@ void MainWindow::on_plot_clicked()
     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
     {
         x[i] = X;
-        y[i] = X*X+on_choose_clicked();
+        y0[i] = X*X+on_choose_clicked();
+        y1[i] = 3+X+on_choose_clicked();
         i++;
     }
     x[i]=b;
-    y[i]=b*b+on_choose_clicked();
+    y0[i]=b*b+on_choose_clicked();
+    y1[i]=3+b+on_choose_clicked();
 
 //Отрисовка графика
-
     ui->widget->clearGraphs();
     ui->widget->addGraph();
+//Первый график
+    ui->widget->graph(0)->setData(x, y0);
+
+    ui->widget->graph(0)->setPen(QPen(Qt::blue));
+    ui->widget->graph(0)->setBrush(QBrush(QColor(0, 0, 255, 20)));
+//Второй график
+    ui->widget->addGraph();
+
+    ui->widget->graph(1)->setData(x, y1);
+    ui->widget->graph(1)->setPen(QPen(Qt::red));
+
+    ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
 
     tracer = new QCPItemTracer(ui->widget);
     tracer->setStyle(QCPItemTracer::tsPlus);
     tracer->setGraph(ui->widget->graph(0));
+    
+    tracer->setGraph(ui->widget->graph(1));
 
-    ui->widget->graph(0)->setData(x, y);
-
-    ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
-
-    double minY = y[0], maxY = y[0];
+    double minY = y0[0], maxY = y0[0];
     for (int i=1; i<N; i++)
     {
-        if (y[i]<minY) minY = y[i];
-        if (y[i]>maxY) maxY = y[i];
+        if (y0[i]<minY) minY = y0[i];
+        if (y0[i]>maxY) maxY = y0[i];
     }
 
     ui->widget->yAxis->setRange(minY, maxY);
