@@ -88,7 +88,6 @@ void MainWindow::on_plot_clicked()
     ui->widget->graph(0)->setData(x, y0);
 
     ui->widget->graph(0)->setPen(QPen(Qt::blue));
-    ui->widget->graph(0)->setBrush(QBrush(QColor(0, 0, 255, 20)));
 //Второй график
     ui->widget->addGraph();
 
@@ -133,11 +132,11 @@ double MainWindow::on_choose_clicked()
     {
         n = 1;
     }
-    if (func == "Алюминий")
+    else if (func == "Алюминий")
     {
         n = 2;
     }
-    if (func == "Железо")
+    else //(func == "Железо")
     {
         n = 3;
     }
@@ -151,18 +150,14 @@ void MainWindow::slotMouseMove(QMouseEvent *event)
 }
 void MainWindow::slotMousePress(QMouseEvent *event)
 {
-    // Определяем координату X на графике, где был произведён клик мышью
+// Определяем координату X на графике, где был произведён клик мышью
     double coordX = ui->widget->xAxis->pixelToCoord(event->pos().x());
-
-    // По координате X клика мыши определим ближайшие координаты для трассировщика
+// По координате X клика мыши определим ближайшие координаты для трассировщика
     tracer->setGraphKey(coordX);
-
     tracer->updatePosition();
-
-    // Выводим координаты точки графика, где установился трассировщик, в lineEdit
-
+// Выводим координаты точки графика, где установился трассировщик, в lineEdit
     ui->lineEdit->setText("x: " + QString::number(tracer->position->key()) +
                           " y: " + QString::number(tracer->position->value()));
-
-    ui->widget->replot(); // Перерисовываем содержимое полотна графика
+// Перерисовываем содержимое полотна графика
+    ui->widget->replot();
 }
