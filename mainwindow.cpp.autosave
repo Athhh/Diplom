@@ -77,7 +77,7 @@ void MainWindow::on_plot_clicked()
 
 //Отрисовка графика
 
-    //ui->widget->clearGraphs();
+    ui->widget->clearGraphs();
     ui->widget->addGraph();
 
     tracer = new QCPItemTracer(ui->widget);
@@ -97,7 +97,7 @@ void MainWindow::on_plot_clicked()
 
     ui->widget->yAxis->setRange(minY, maxY);
 
-    //ui->widget->replot();
+    ui->widget->replot();
     ui->widget->rescaleAxes();
 }
 
