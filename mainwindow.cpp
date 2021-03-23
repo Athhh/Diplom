@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <qcustomplot.h>
 #include <QFile>
+#include <QList>
+#include <QString>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -21,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
 //Трейсер
     connect(ui->widget, &QCustomPlot::mousePress, this, &MainWindow::slotMousePress);
     connect(ui->widget, &QCustomPlot::mouseMove, this, &MainWindow::slotMouseMove);
+    tracer = new QCPItemTracer(ui->widget);
+    tracer->setStyle(QCPItemTracer::tsPlus);
 //Легенда
     ui->widget->legend->setVisible(true);
     QFont legendFont = font();
@@ -106,9 +110,9 @@ void MainWindow::on_plot_clicked()
 
     ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
 
-    tracer = new QCPItemTracer(ui->widget);
-    tracer->setStyle(QCPItemTracer::tsPlus);
-    tracer->setGraph(ui->widget->graph(1));
+
+
+    //tracer->setGraph(ui->widget->graph(1));
 
     double minY = y0[0], maxY = y0[0];
     for (int i=1; i<N; i++)
@@ -145,7 +149,7 @@ void MainWindow::mousePress()
 
 double MainWindow::on_choose_clicked()
 {
-    QFile file("E:\\Work\\projects\\Diplom");
+    QFile file("Materials.txt");
     QString func = ui->material->currentText();
     int n;
     if (func == "Медь")
@@ -161,15 +165,14 @@ double MainWindow::on_choose_clicked()
         n = 3;
     }
     int i=0;
-    while((i<=n)&&(!file.atEnd()))
+    QString str[5];
+    while(!file.atEnd())
     {
-        file.readLine();
+        str[i] = file.readLine();
         i++;
     }
-    QByteArray mat = file.readLine();
-    mat.toDouble();
     file.close();
-    return mat;
+    return str[0].toDouble();
 }
 
 void MainWindow::slotMouseMove(QMouseEvent *event)
