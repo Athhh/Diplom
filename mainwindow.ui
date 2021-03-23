@@ -105,22 +105,12 @@
        </item>
       </layout>
      </item>
-     <item row="4" column="0" colspan="2">
+     <item row="3" column="0" colspan="2">
       <widget class="QPushButton" name="plot">
        <property name="text">
         <string>Построить график</string>
        </property>
       </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Координата:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEdit"/>
      </item>
     </layout>
    </widget>
@@ -157,6 +147,19 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="coord">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>550</y>
+      <width>461</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Координата:</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -164,7 +167,7 @@
      <x>0</x>
      <y>0</y>
      <width>1285</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuWindow">

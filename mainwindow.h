@@ -33,9 +33,18 @@ private slots:
 
     void slotMouseMove(QMouseEvent * event);
 
+    void mousePress();
+
+    void contextMenuRequest(QPoint pos);
+
+    void removeSelectedGraph();
+
+    void removeAllGraphs();
+
+    void selectionChanged();
+
 private:
     Ui::MainWindow *ui;
-    QCPCurve *verticalLine;
     QCPItemTracer *tracer;
     double leftX,rightX;
 };

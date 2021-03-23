@@ -11,14 +11,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->widget->plotLayout()->insertRow(0);
     QCPTextElement *title = new QCPTextElement(ui->widget, "График зависимости интенсивности от энергии", QFont("sans", 18, QFont::Bold));
     ui->widget->plotLayout()->addElement(0, 0, title);
-//Перетаскивание графика
-    ui->widget->setInteraction(QCP::iRangeDrag, true);
 //Название осей
     ui->widget->xAxis->setLabel("Энергия");
     ui->widget->yAxis->setLabel("Интенсивность");
-//Приближение графика
+//Установка взаимодействий
     ui->widget->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
-    //connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
 //Трейсер
     connect(ui->widget, &QCustomPlot::mousePress, this, &MainWindow::slotMousePress);
     connect(ui->widget, &QCustomPlot::mouseMove, this, &MainWindow::slotMouseMove);
@@ -235,6 +232,7 @@ void MainWindow::selectionChanged()
     if (item->selected() || graph->selected())
     {
       item->setSelected(true);
+      tracer->setGraph(graph);
       graph->setSelection(QCPDataSelection(graph->data()->dataRange()));
     }
   }
