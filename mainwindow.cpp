@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <qcustomplot.h>
 #include <QFile>
-#include <stdio.h>
+#include <QDebug>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -149,7 +149,41 @@ void MainWindow::mousePress()
 double MainWindow::on_choose_clicked()
 {
     QString func = ui->material->currentText(); //Передаём в константу выбранный пользователем материал
-    QFile file("Materials.txt");
+    QFile file("E:\\Work\\projects\\Diplom\\Diplom\\Materials.txt");
+    int n;
+    if (func == "Медь")
+    {
+        n = 0;
+    }
+    else if (func == "Алюминий")
+    {
+        n = 1;
+    }
+    else //(func == "Железо")
+    {
+        n = 2;
+    }
+    if (file.open(QIODevice::ReadOnly))
+    {
+        int i=0;
+        while((i<n)&&(!file.atEnd()))
+        {
+            file.readLine();
+            i++;
+        };
+    }
+
+    return file.readLine().toDouble();
+    file.close();
+
+    /*
+    QString func = ui->material->currentText(); //Передаём в константу выбранный пользователем материал
+    QFile file("E:\\Work\\projects\\Diplom\\Diplom\\Materials.txt");
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qWarning("Cannot open file for reading"); // если файл не найден, то выводим предупреждение и завершаем выполнение программы
+        return 1;
+    }
     QStringList strList;
     int n;
     if (func == "Медь")
@@ -174,7 +208,7 @@ double MainWindow::on_choose_clicked()
     }
     file.close();
 
-    return strList[n].toDouble();
+    return strList[n].toDouble();*/
 }
 
     /*QString func = ui->material->currentText();
