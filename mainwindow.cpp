@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->widget->yAxis->setLabel("Интенсивность");
 //Приближение графика
     ui->widget->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
-    connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
+    //connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
 //Трейсер
     connect(ui->widget, &QCustomPlot::mousePress, this, &MainWindow::slotMousePress);
     connect(ui->widget, &QCustomPlot::mouseMove, this, &MainWindow::slotMouseMove);
@@ -28,6 +28,17 @@ MainWindow::MainWindow(QWidget *parent)
     legendFont.setPointSize(10);
     ui->widget->legend->setSelectedFont(legendFont);
     ui->widget->legend->setSelectableParts(QCPLegend::spItems);
+
+ // connect slot that ties some axis selections together (especially opposite axes):
+     connect(ui->widget, SIGNAL(selectionChangedByUser()), this, SLOT(selectionChanged()));
+    // connect slots that takes care that when an axis is selected, only that direction can be dragged and zoomed:
+    connect(ui->widget, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(mousePress()));
+    connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
+
+    connect(ui->widget, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), this, SLOT(graphClicked(QCPAbstractPlottable*,int)));
+
+    ui->widget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->widget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequest(QPoint)));
 }
 
 MainWindow::~MainWindow()
@@ -98,7 +109,6 @@ void MainWindow::on_plot_clicked()
 
     tracer = new QCPItemTracer(ui->widget);
     tracer->setStyle(QCPItemTracer::tsPlus);
-    tracer->setGraph(ui->widget->graph(0));
     tracer->setGraph(ui->widget->graph(1));
 
     double minY = y0[0], maxY = y0[0];
@@ -122,6 +132,16 @@ void MainWindow::mouseWheel()
     ui->widget->axisRect()->setRangeZoom(ui->widget->yAxis->orientation());
     else
     ui->widget->axisRect()->setRangeZoom(Qt::Horizontal|Qt::Vertical);
+}
+
+void MainWindow::mousePress()
+{
+  if (ui->widget->xAxis->selectedParts().testFlag(QCPAxis::spAxis))
+    ui->widget->axisRect()->setRangeDrag(ui->widget->xAxis->orientation());
+  else if (ui->widget->yAxis->selectedParts().testFlag(QCPAxis::spAxis))
+    ui->widget->axisRect()->setRangeDrag(ui->widget->yAxis->orientation());
+  else
+    ui->widget->axisRect()->setRangeDrag(Qt::Horizontal|Qt::Vertical);
 }
 
 double MainWindow::on_choose_clicked()
@@ -148,6 +168,7 @@ void MainWindow::slotMouseMove(QMouseEvent *event)
 {
     if(QApplication::mouseButtons()) slotMousePress(event);
 }
+
 void MainWindow::slotMousePress(QMouseEvent *event)
 {
 // Определяем координату X на графике, где был произведён клик мышью
@@ -156,8 +177,65 @@ void MainWindow::slotMousePress(QMouseEvent *event)
     tracer->setGraphKey(coordX);
     tracer->updatePosition();
 // Выводим координаты точки графика, где установился трассировщик, в lineEdit
-    ui->lineEdit->setText("x: " + QString::number(tracer->position->key()) +
+    ui->coord->setText("Координата x: " + QString::number(tracer->position->key()) +
                           " y: " + QString::number(tracer->position->value()));
 // Перерисовываем содержимое полотна графика
     ui->widget->replot();
+}
+
+void MainWindow::contextMenuRequest(QPoint pos)
+{
+  QMenu *menu = new QMenu(this);
+  menu->setAttribute(Qt::WA_DeleteOnClose);
+  {
+    if (ui->widget->selectedGraphs().size() > 0)
+    menu->addAction("Удалить выбранный график", this, SLOT(removeSelectedGraph()));
+    if (ui->widget->graphCount() > 0)
+    menu->addAction("Удалить все графики", this, SLOT(removeAllGraphs()));
+  }
+  menu->popup(ui->widget->mapToGlobal(pos));
+}
+
+
+void MainWindow::removeSelectedGraph()
+{
+  if (ui->widget->selectedGraphs().size() > 0)
+  {
+    ui->widget->removeGraph(ui->widget->selectedGraphs().first());
+    ui->widget->replot();
+  }
+}
+
+void MainWindow::removeAllGraphs()
+{
+  ui->widget->clearGraphs();
+  ui->widget->replot();
+}
+
+void MainWindow::selectionChanged()
+{
+  if (ui->widget->xAxis->selectedParts().testFlag(QCPAxis::spAxis) || ui->widget->xAxis->selectedParts().testFlag(QCPAxis::spTickLabels) ||
+      ui->widget->xAxis2->selectedParts().testFlag(QCPAxis::spAxis) || ui->widget->xAxis2->selectedParts().testFlag(QCPAxis::spTickLabels))
+  {
+    ui->widget->xAxis2->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
+    ui->widget->xAxis->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
+  }
+
+  if (ui->widget->yAxis->selectedParts().testFlag(QCPAxis::spAxis) || ui->widget->yAxis->selectedParts().testFlag(QCPAxis::spTickLabels) ||
+      ui->widget->yAxis2->selectedParts().testFlag(QCPAxis::spAxis) || ui->widget->yAxis2->selectedParts().testFlag(QCPAxis::spTickLabels))
+  {
+    ui->widget->yAxis2->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
+    ui->widget->yAxis->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
+  }
+
+  for (int i=0; i<ui->widget->graphCount(); ++i)
+  {
+    QCPGraph *graph = ui->widget->graph(i);
+    QCPPlottableLegendItem *item = ui->widget->legend->itemWithPlottable(graph);
+    if (item->selected() || graph->selected())
+    {
+      item->setSelected(true);
+      graph->setSelection(QCPDataSelection(graph->data()->dataRange()));
+    }
+  }
 }
