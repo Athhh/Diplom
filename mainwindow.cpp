@@ -229,8 +229,7 @@ void MainWindow::slotMousePress(QMouseEvent *event)
     tracer->setGraphKey(coordX);
     tracer->updatePosition();
 // Выводим координаты точки графика, где установился трассировщик, в lineEdit
-    ui->coord->setText("Координата x: " + QString::number(tracer->position->key()) +
-                          " y: " + QString::number(tracer->position->value()));
+    ui->coord->setText("Координата x: " + QString::number(tracer->position->key()) + " y: " + QString::number(tracer->position->value()));
 // Перерисовываем содержимое полотна графика
     ui->widget->replot();
 }
