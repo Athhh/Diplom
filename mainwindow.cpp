@@ -19,16 +19,16 @@ MainWindow::MainWindow(QWidget *parent)
 //Трейсер
     connect(ui->widget, &QCustomPlot::mousePress, this, &MainWindow::slotMousePress);
     connect(ui->widget, &QCustomPlot::mouseMove, this, &MainWindow::slotMouseMove);
-//Легенда
+//Легендар
     ui->widget->legend->setVisible(true);
     QFont legendFont = font();
     legendFont.setPointSize(10);
     ui->widget->legend->setSelectedFont(legendFont);
     ui->widget->legend->setSelectableParts(QCPLegend::spItems);
 
- // connect slot that ties some axis selections together (especially opposite axes):
+// connect slot that ties some axis selections together (especially opposite axes):
      connect(ui->widget, SIGNAL(selectionChangedByUser()), this, SLOT(selectionChanged()));
-    // connect slots that takes care that when an axis is selected, only that direction can be dragged and zoomed:
+// connect slots that takes care that when an axis is selected, only that direction can be dragged and zoomed:
     connect(ui->widget, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(mousePress()));
     connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
 
