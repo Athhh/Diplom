@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <qcustomplot.h>
+#include <stdio.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

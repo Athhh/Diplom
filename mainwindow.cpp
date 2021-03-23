@@ -2,8 +2,7 @@
 #include "ui_mainwindow.h"
 #include <qcustomplot.h>
 #include <QFile>
-#include <QList>
-#include <QString>
+#include <stdio.h>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -149,8 +148,50 @@ void MainWindow::mousePress()
 
 double MainWindow::on_choose_clicked()
 {
+    QString func = ui->material->currentText(); //Передаём в константу выбранный пользователем материал
     QFile file("Materials.txt");
+    QStringList strList;
+    int n;
+    if (func == "Медь")
+    {
+        n = 1;
+    }
+    else if (func == "Алюминий")
+    {
+        n = 2;
+    }
+    else //(func == "Железо")
+    {
+        n = 3;
+    }
+    if (file.open(QIODevice::ReadOnly))
+    {
+        while(!file.atEnd())
+        {
+            strList << file.readLine();
+        }
+        strList[n];
+    }
+    file.close();
+
+    return strList[n].toDouble();
+}
+
+    /*QString func = ui->material->currentText();
+    FILE *fp;
+    double n;
+    #define MAXLIN 80
+    char string[MAXLIN];
+    fp = fopen("Materials.txt", "r");
+    while((fgets(string, MAXLIN, fp))!=func)
+        fscanf(fp,"%d",&n);
+    return n;*/
+
+
+    /*
     QString func = ui->material->currentText();
+    QFile file("Materials.txt");
+
     int n;
     if (func == "Медь")
     {
@@ -172,8 +213,8 @@ double MainWindow::on_choose_clicked()
         i++;
     }
     file.close();
-    return str[0].toDouble();
-}
+    return str[0].toDouble();*/
+
 
 void MainWindow::slotMouseMove(QMouseEvent *event)
 {
