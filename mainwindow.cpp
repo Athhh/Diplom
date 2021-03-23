@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <qcustomplot.h>
+#include <QFile>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 //Трейсер
     connect(ui->widget, &QCustomPlot::mousePress, this, &MainWindow::slotMousePress);
     connect(ui->widget, &QCustomPlot::mouseMove, this, &MainWindow::slotMouseMove);
-//Легендар
+//Легенда
     ui->widget->legend->setVisible(true);
     QFont legendFont = font();
     legendFont.setPointSize(10);
@@ -143,6 +145,7 @@ void MainWindow::mousePress()
 
 double MainWindow::on_choose_clicked()
 {
+    QFile file("E:\\Work\\projects\\Diplom");
     QString func = ui->material->currentText();
     int n;
     if (func == "Медь")
@@ -157,8 +160,16 @@ double MainWindow::on_choose_clicked()
     {
         n = 3;
     }
-
-    return n;
+    int i=0;
+    while((i<=n)&&(!file.atEnd()))
+    {
+        file.readLine();
+        i++;
+    }
+    QByteArray mat = file.readLine();
+    mat.toDouble();
+    file.close();
+    return mat;
 }
 
 void MainWindow::slotMouseMove(QMouseEvent *event)
