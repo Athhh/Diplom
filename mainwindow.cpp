@@ -3,6 +3,7 @@
 #include <qcustomplot.h>
 #include <QFile>
 #include <QDebug>
+#include <QTextStream>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -26,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     tracer->setStyle(QCPItemTracer::tsNone);
     tracer->setSize(10);
 //Легенда
-    ui->widget->legend->setVisible(true);
     QFont legendFont = font();
     legendFont.setPointSize(10);
     ui->widget->legend->setSelectedFont(legendFont);
@@ -68,6 +68,7 @@ double MainWindow::on_rightX_editingFinished()
 
 void MainWindow::on_plot_clicked()
 {
+    ui->widget->legend->setVisible(true);
     double a = on_leftX_editingFinished();
     double b = on_rightX_editingFinished();
     double h = on_acc_editingFinished();
@@ -83,18 +84,28 @@ void MainWindow::on_plot_clicked()
 //Вычисляем наши данные
 
     int i=0;
-    for (double X=a; fabs(X - b) >= 0.00001; X+= h)
-    {
-        x[i] = X;
-        y0[i] = X*X+on_choose_clicked();
-        y1[i] = 3+X+on_choose_clicked();
-        i++;
-    }
-    x[i]=b;
-    y0[i]=b*b+on_choose_clicked();
-    y1[i]=3+b+on_choose_clicked();
 
-//Отрисовка графикаf
+
+//Записываем данные в переменную
+    QFile fileOut("E:\\Work\\projects\\Diplom\\Diplom\\fileOut.txt");
+    if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
+    {
+        QTextStream in(&fileOut);
+        for (double X=a; fabs(X - b) >= 0.00001; X+= h)
+        {
+            x[i] = X;
+            in << x[i];
+            y0[i] = X*X+on_choose_clicked();
+            y1[i] = 3+X+on_choose_clicked();
+            i++;
+        }
+        x[i]=b;
+        y0[i]=b*b+on_choose_clicked();
+        y1[i]=3+b+on_choose_clicked();
+
+        fileOut.close();
+    }
+//Отрисовка графика
 
     ui->widget->clearGraphs();
 
@@ -109,6 +120,7 @@ void MainWindow::on_plot_clicked()
     ui->widget->addGraph();
     ui->widget->graph(1)->setData(x, y1);
     ui->widget->graph(1)->setPen(QPen(Qt::red));
+    ui->widget->graph(1)->setVisible(false);
 
 //Границы по оси х
 
@@ -350,4 +362,10 @@ void MainWindow::selectionChanged()
       graph->setSelection(QCPDataSelection(graph->data()->dataRange()));
     }
   }
+}
+
+void MainWindow::on_set_visible_clicked()
+{
+    ui->widget->graph(1)->setVisible(true);
+    ui->widget->replot();
 }
