@@ -94,7 +94,7 @@ void MainWindow::on_plot_clicked()
     y0[i]=b*b+on_choose_clicked();
     y1[i]=3+b+on_choose_clicked();
 
-//Отрисовка графика
+//Отрисовка графикаf
 
     ui->widget->clearGraphs();
 
