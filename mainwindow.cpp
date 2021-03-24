@@ -23,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->widget, &QCustomPlot::mousePress, this, &MainWindow::slotMousePress);
     connect(ui->widget, &QCustomPlot::mouseMove, this, &MainWindow::slotMouseMove);
     tracer = new QCPItemTracer(ui->widget);
-    tracer->setStyle(QCPItemTracer::tsPlus);
+    tracer->setStyle(QCPItemTracer::tsNone);
+    tracer->setSize(10);
 //Легенда
     ui->widget->legend->setVisible(true);
     QFont legendFont = font();
@@ -345,6 +346,7 @@ void MainWindow::selectionChanged()
     {
       item->setSelected(true);
       tracer->setGraph(graph);
+      tracer->setStyle(QCPItemTracer::tsPlus);
       graph->setSelection(QCPDataSelection(graph->data()->dataRange()));
     }
   }
