@@ -69,6 +69,7 @@ double MainWindow::on_rightX_editingFinished()
 void MainWindow::on_plot_clicked()
 {
     ui->widget->legend->setVisible(true);
+
     double a = on_leftX_editingFinished();
     double b = on_rightX_editingFinished();
     double h = on_acc_editingFinished();
@@ -85,22 +86,22 @@ void MainWindow::on_plot_clicked()
 
     int i=0;
 
-
 //Записываем данные в переменную
-    QFile fileOut("E:\\Work\\projects\\Diplom\\Diplom\\fileOut.txt");
+    QFile fileOut(QCoreApplication::applicationDirPath() + "/Output/fileOut.txt");
     if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
     {
         QTextStream in(&fileOut);
         for (double X=a; fabs(X - b) >= 0.00001; X+= h)
         {
             x[i] = X;
-            in << x[i];
             y0[i] = X*X+on_choose_clicked();
+            in << y0[i] << endl;
             y1[i] = 3+X+on_choose_clicked();
             i++;
         }
         x[i]=b;
         y0[i]=b*b+on_choose_clicked();
+        in << y0[i] << endl;
         y1[i]=3+b+on_choose_clicked();
 
         fileOut.close();
@@ -164,7 +165,8 @@ void MainWindow::mousePress()
 double MainWindow::on_choose_clicked()
 {
     QString func = ui->material->currentText();
-    QFile file("E:\\Work\\projects\\Diplom\\Diplom\\Materials.txt");
+    qDebug() << QString( QCoreApplication::applicationDirPath() + "/Materials/Materials.txt" );
+    QFile file(QCoreApplication::applicationDirPath() + "/Materials/Materials.txt");
     QStringList strList;
     if (file.open(QIODevice::ReadOnly))
     {
@@ -178,107 +180,6 @@ double MainWindow::on_choose_clicked()
 
     file.close();
 }
-
-    /*QString func = ui->material->currentText(); //Передаём в константу выбранный пользователем материал
-    QFile file("E:\\Work\\projects\\Diplom\\Diplom\\Materials.txt");
-    int n;
-    if (func == "Медь")
-    {
-        n = 0;
-    }
-    else if (func == "Алюминий")
-    {
-        n = 1;
-    }
-    else //(func == "Железо")
-    {
-        n = 2;
-    }
-    if (file.open(QIODevice::ReadOnly))
-    {
-        int i=0;
-        while((i<n)&&(!file.atEnd()))
-        {
-            file.readLine();
-            i++;
-        };
-    }
-
-    return file.readLine().toDouble();
-    file.close();
-*/
-    /*
-    QString func = ui->material->currentText(); //Передаём в константу выбранный пользователем материал
-    QFile file("E:\\Work\\projects\\Diplom\\Diplom\\Materials.txt");
-    if (!file.open(QIODevice::ReadOnly))
-    {
-        qWarning("Cannot open file for reading"); // если файл не найден, то выводим предупреждение и завершаем выполнение программы
-        return 1;
-    }
-    QStringList strList;
-    int n;
-    if (func == "Медь")
-    {
-        n = 1;
-    }
-    else if (func == "Алюминий")
-    {
-        n = 2;
-    }
-    else //(func == "Железо")
-    {
-        n = 3;
-    }
-    if (file.open(QIODevice::ReadOnly))
-    {
-        while(!file.atEnd())
-        {
-            strList << file.readLine();
-        }
-        strList[n];
-    }
-    file.close();
-
-    return strList[n].toDouble();*/
-
-    /*QString func = ui->material->currentText();
-    FILE *fp;
-    double n;
-    #define MAXLIN 80
-    char string[MAXLIN];
-    fp = fopen("Materials.txt", "r");
-    while((fgets(string, MAXLIN, fp))!=func)
-        fscanf(fp,"%d",&n);
-    return n;*/
-
-
-    /*
-    QString func = ui->material->currentText();
-    QFile file("Materials.txt");
-
-    int n;
-    if (func == "Медь")
-    {
-        n = 1;
-    }
-    else if (func == "Алюминий")
-    {
-        n = 2;
-    }
-    else //(func == "Железо")
-    {
-        n = 3;
-    }
-    int i=0;
-    QString str[5];
-    while(!file.atEnd())
-    {
-        str[i] = file.readLine();
-        i++;
-    }
-    file.close();
-    return str[0].toDouble();*/
-
 
 void MainWindow::slotMouseMove(QMouseEvent *event)
 {
