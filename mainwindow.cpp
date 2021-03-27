@@ -95,7 +95,7 @@ void MainWindow::on_plot_clicked()
         {
             x[i] = X;
             y0[i] = X*X+on_choose_clicked();
-            in << y0[i] << endl;
+            in << y0[i] << "\n";
             y1[i] = 3+X+on_choose_clicked();
             i++;
         }
