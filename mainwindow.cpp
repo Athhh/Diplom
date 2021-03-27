@@ -89,7 +89,6 @@ void MainWindow::on_plot_clicked()
         msgBox.exec();
     }
 //Вычисляем наши данные
-
     else
     {
     QVector<double> x(N), y0(N), y1(N);
@@ -273,10 +272,4 @@ void MainWindow::selectionChanged()
       graph->setSelection(QCPDataSelection(graph->data()->dataRange()));
     }
   }
-}
-
-void MainWindow::on_set_visible_clicked()
-{
-    ui->widget->graph(1)->setVisible(true);
-    ui->widget->replot();
 }
