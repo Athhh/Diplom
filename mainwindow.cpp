@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <qcustomplot.h>
+#include <QFile>
+#include <QDebug>
+#include <QTextStream>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,16 +23,17 @@ MainWindow::MainWindow(QWidget *parent)
 //Трейсер
     connect(ui->widget, &QCustomPlot::mousePress, this, &MainWindow::slotMousePress);
     connect(ui->widget, &QCustomPlot::mouseMove, this, &MainWindow::slotMouseMove);
+    tracer = new QCPItemTracer(ui->widget);
+    tracer->setStyle(QCPItemTracer::tsNone);
+    tracer->setSize(10);
 //Легенда
-    ui->widget->legend->setVisible(true);
     QFont legendFont = font();
     legendFont.setPointSize(10);
     ui->widget->legend->setSelectedFont(legendFont);
     ui->widget->legend->setSelectableParts(QCPLegend::spItems);
-
- // connect slot that ties some axis selections together (especially opposite axes):
+// connect slot that ties some axis selections together (especially opposite axes):
      connect(ui->widget, SIGNAL(selectionChangedByUser()), this, SLOT(selectionChanged()));
-    // connect slots that takes care that when an axis is selected, only that direction can be dragged and zoomed:
+// connect slots that takes care that when an axis is selected, only that direction can be dragged and zoomed:
     connect(ui->widget, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(mousePress()));
     connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
 
@@ -63,6 +68,8 @@ double MainWindow::on_rightX_editingFinished()
 
 void MainWindow::on_plot_clicked()
 {
+    ui->widget->legend->setVisible(true);
+
     double a = on_leftX_editingFinished();
     double b = on_rightX_editingFinished();
     double h = on_acc_editingFinished();
@@ -78,35 +85,49 @@ void MainWindow::on_plot_clicked()
 //Вычисляем наши данные
 
     int i=0;
-    for (double X=a; fabs(X - b) >= 0.00001; X+= h)
+
+//Записываем данные в переменную
+    QFile fileOut(QCoreApplication::applicationDirPath() + "/Output/fileOut.txt");
+    if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
     {
-        x[i] = X;
-        y0[i] = X*X+on_choose_clicked();
-        y1[i] = 3+X+on_choose_clicked();
-        i++;
+        QTextStream in(&fileOut);
+        for (double X=a; fabs(X - b) >= 0.00001; X+= h)
+        {
+            x[i] = X;
+            y0[i] = X*X+on_choose_clicked();
+            in << y0[i] << endl;
+            y1[i] = 3+X+on_choose_clicked();
+            i++;
+        }
+        x[i]=b;
+        y0[i]=b*b+on_choose_clicked();
+        in << y0[i] << endl;
+        y1[i]=3+b+on_choose_clicked();
+
+        fileOut.close();
     }
-    x[i]=b;
-    y0[i]=b*b+on_choose_clicked();
-    y1[i]=3+b+on_choose_clicked();
-
 //Отрисовка графика
+
     ui->widget->clearGraphs();
-    ui->widget->addGraph();
+
 //Первый график
-    ui->widget->graph(0)->setData(x, y0);
 
-    ui->widget->graph(0)->setPen(QPen(Qt::blue));
-//Второй график
     ui->widget->addGraph();
+    ui->widget->graph(0)->setData(x, y0);
+    ui->widget->graph(0)->setPen(QPen(Qt::blue));
 
+//Второй график
+
+    ui->widget->addGraph();
     ui->widget->graph(1)->setData(x, y1);
     ui->widget->graph(1)->setPen(QPen(Qt::red));
+    ui->widget->graph(1)->setVisible(false);
+
+//Границы по оси х
 
     ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
 
-    tracer = new QCPItemTracer(ui->widget);
-    tracer->setStyle(QCPItemTracer::tsPlus);
-    tracer->setGraph(ui->widget->graph(1));
+//Границы по оси y
 
     double minY = y0[0], maxY = y0[0];
     for (int i=1; i<N; i++)
@@ -144,21 +165,20 @@ void MainWindow::mousePress()
 double MainWindow::on_choose_clicked()
 {
     QString func = ui->material->currentText();
-    int n;
-    if (func == "Медь")
+    qDebug() << QString( QCoreApplication::applicationDirPath() + "/Materials/Materials.txt" );
+    QFile file(QCoreApplication::applicationDirPath() + "/Materials/Materials.txt");
+    QStringList strList;
+    if (file.open(QIODevice::ReadOnly))
     {
-        n = 1;
-    }
-    else if (func == "Алюминий")
-    {
-        n = 2;
-    }
-    else //(func == "Железо")
-    {
-        n = 3;
+        while(!file.atEnd())
+        {
+            strList << file.readLine();
+        }
     }
 
-    return n;
+    return strList[ui->material->currentIndex()].toDouble();
+
+    file.close();
 }
 
 void MainWindow::slotMouseMove(QMouseEvent *event)
@@ -169,14 +189,20 @@ void MainWindow::slotMouseMove(QMouseEvent *event)
 void MainWindow::slotMousePress(QMouseEvent *event)
 {
 // Определяем координату X на графике, где был произведён клик мышью
+
     double coordX = ui->widget->xAxis->pixelToCoord(event->pos().x());
+
 // По координате X клика мыши определим ближайшие координаты для трассировщика
+
     tracer->setGraphKey(coordX);
     tracer->updatePosition();
-// Выводим координаты точки графика, где установился трассировщик, в lineEdit
-    ui->coord->setText("Координата x: " + QString::number(tracer->position->key()) +
-                          " y: " + QString::number(tracer->position->value()));
+
+// Выводим координаты точки графика, где установился трассировщик, в label
+
+    ui->coord->setText("Координата x: " + QString::number(tracer->position->key()) + " y: " + QString::number(tracer->position->value()));
+
 // Перерисовываем содержимое полотна графика
+
     ui->widget->replot();
 }
 
@@ -233,7 +259,14 @@ void MainWindow::selectionChanged()
     {
       item->setSelected(true);
       tracer->setGraph(graph);
+      tracer->setStyle(QCPItemTracer::tsPlus);
       graph->setSelection(QCPDataSelection(graph->data()->dataRange()));
     }
   }
+}
+
+void MainWindow::on_set_visible_clicked()
+{
+    ui->widget->graph(1)->setVisible(true);
+    ui->widget->replot();
 }
