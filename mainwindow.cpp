@@ -78,15 +78,25 @@ void MainWindow::on_plot_clicked()
 
     double N = (b-a)/(h)+1;
 
-    N = round(N);
+//Проверяем, можно ли отрисовать такой график
 
-    QVector<double> x(N), y0(N), y1(N);
-
+    if (N - int(N) != 0)
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setWindowTitle("Внимание");
+        msgBox.setText("Введите другой шаг");
+        msgBox.exec();
+    }
 //Вычисляем наши данные
 
+    else
+    {
+    QVector<double> x(N), y0(N), y1(N);
     int i=0;
 
 //Записываем данные в переменную
+
     QFile fileOut(QCoreApplication::applicationDirPath() + "/Output/fileOut.txt");
     if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
     {
@@ -95,14 +105,14 @@ void MainWindow::on_plot_clicked()
         {
             x[i] = X;
             y0[i] = X*X+on_choose_clicked();
-            in << y0[i] << "\n";
             y1[i] = 3+X+on_choose_clicked();
+            in << x[i] << "\t" << y0[i] << "\t" << y1[i] << "\n";
             i++;
         }
         x[i]=b;
         y0[i]=b*b+on_choose_clicked();
-        in << y0[i] << endl;
         y1[i]=3+b+on_choose_clicked();
+        in << x[i] << "\t" << y0[i] << "\t" << y1[i] << "\n";
 
         fileOut.close();
     }
@@ -140,6 +150,7 @@ void MainWindow::on_plot_clicked()
 
     ui->widget->replot();
     ui->widget->rescaleAxes();
+    }
 }
 
 void MainWindow::mouseWheel()
