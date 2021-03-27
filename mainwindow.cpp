@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     tracer = new QCPItemTracer(ui->widget);
     tracer->setStyle(QCPItemTracer::tsNone);
     tracer->setSize(10);
-//Легенда
+//Легендаe
     QFont legendFont = font();
     legendFont.setPointSize(10);
     ui->widget->legend->setSelectedFont(legendFont);
@@ -101,7 +101,7 @@ void MainWindow::on_plot_clicked()
         }
         x[i]=b;
         y0[i]=b*b+on_choose_clicked();
-        in << y0[i] << endl;
+        in << y0[i] << "\n";
         y1[i]=3+b+on_choose_clicked();
 
         fileOut.close();
