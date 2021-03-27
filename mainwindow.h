@@ -44,11 +44,10 @@ private slots:
 
     void selectionChanged();
 
-    void on_set_visible_clicked();
-
 private:
     Ui::MainWindow *ui;
     QCPItemTracer *tracer;
     double leftX,rightX;
+    int counter = 0;
 };
 #endif // MAINWINDOW_H

@@ -78,79 +78,210 @@ void MainWindow::on_plot_clicked()
 
     double N = (b-a)/(h)+1;
 
-//Проверяем, можно ли отрисовать такой график
-
-    if (N - int(N) != 0)
+    switch(counter)
     {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setWindowTitle("Внимание");
-        msgBox.setText("Введите другой шаг");
-        msgBox.exec();
-    }
-//Вычисляем наши данные
-    else
-    {
-    QVector<double> x(N), y0(N), y1(N);
-    int i=0;
-
-//Записываем данные в переменную
-
-    QFile fileOut(QCoreApplication::applicationDirPath() + "/Output/fileOut.txt");
-    if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
-    {
-        QTextStream in(&fileOut);
-        for (double X=a; fabs(X - b) >= 0.00001; X+= h)
+        rewind:
+        case 0:
         {
-            x[i] = X;
-            y0[i] = X*X+on_choose_clicked();
-            y1[i] = 3+X+on_choose_clicked();
-            in << x[i] << "\t" << y0[i] << "\t" << y1[i] << "\n";
-            i++;
+            if (N - int(N) != 0)
+            {
+                QMessageBox msgBox;
+                msgBox.setIcon(QMessageBox::Critical);
+                msgBox.setWindowTitle("Внимание");
+                msgBox.setText("Введите другой шаг");
+                msgBox.exec();
+            }
+
+        //Вычисляем наши данные
+            else
+            {
+                QVector<double> x(N), y0(N);
+
+                int i=0;
+
+            //Записываем данные в переменную
+
+                QFile fileOut(QCoreApplication::applicationDirPath() + "/Output/fileOut.txt");
+                if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
+                {
+                    QTextStream in(&fileOut);
+                    for (double X=a; fabs(X - b) >= 0.00001; X+= h)
+                    {
+                        x[i] = X;
+                        y0[i] = X*X+on_choose_clicked();
+                        in << x[i] << "\t" << y0[i] << "\n";
+                        i++;
+                    }
+                    x[i]=b;
+                    y0[i]=b*b+on_choose_clicked();
+                    in << x[i] << "\t" << y0[i]  << "\n";
+
+                    fileOut.close();
+                }
+            //Отрисовка графика
+
+                ui->widget->addGraph();
+                ui->widget->graph(counter)->setData(x, y0);
+                ui->widget->graph(counter)->setPen(QPen(Qt::blue));
+
+            //Границы по оси х
+
+                ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
+
+            //Границы по оси y
+
+                double minY = y0[0], maxY = y0[0];
+                for (int i=1; i<N; i++)
+                {
+                    if (y0[i]<minY) minY = y0[i];
+                    if (y0[i]>maxY) maxY = y0[i];
+                }
+
+                ui->widget->yAxis->setRange(minY, maxY);
+
+                ui->widget->replot();
+                ui->widget->rescaleAxes();
+                counter++;
+                break;
+            }
         }
-        x[i]=b;
-        y0[i]=b*b+on_choose_clicked();
-        y1[i]=3+b+on_choose_clicked();
-        in << x[i] << "\t" << y0[i] << "\t" << y1[i] << "\n";
+        case 1:
+        {
+        if (N - int(N) != 0)
+            {
+                QMessageBox msgBox;
+                msgBox.setIcon(QMessageBox::Critical);
+                msgBox.setWindowTitle("Внимание");
+                msgBox.setText("Введите другой шаг");
+                msgBox.exec();
+            }
 
-        fileOut.close();
-    }
-//Отрисовка графика
+    //Вычисляем наши данные
+        else
+            {
+            QVector<double> x(N), y1(N);
 
-    ui->widget->clearGraphs();
+            int i=0;
 
-//Первый график
+        //Записываем данные в переменную
 
-    ui->widget->addGraph();
-    ui->widget->graph(0)->setData(x, y0);
-    ui->widget->graph(0)->setPen(QPen(Qt::blue));
+            QFile fileOut(QCoreApplication::applicationDirPath() + "/Output/fileOut.txt");
+            if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
+            {
+                QTextStream in(&fileOut);
+                for (double X=a; fabs(X - b) >= 0.00001; X+= h)
+                {
+                    x[i] = X;
+                    y1[i] = X*X+on_choose_clicked();
+                    in << x[i] << "\t" << y1[i] << "\n";
+                    i++;
+                }
+                x[i]=b;
+                y1[i]=b*b+on_choose_clicked();
+                in << x[i] << "\t" << y1[i]  << "\n";
 
-//Второй график
+                fileOut.close();
+            }
+        //Отрисовка графика
 
-    ui->widget->addGraph();
-    ui->widget->graph(1)->setData(x, y1);
-    ui->widget->graph(1)->setPen(QPen(Qt::red));
-    ui->widget->graph(1)->setVisible(false);
+            ui->widget->addGraph();
+            ui->widget->graph(counter)->setData(x, y1);
+            ui->widget->graph(counter)->setPen(QPen(Qt::red));
 
-//Границы по оси х
+        //Границы по оси х
 
-    ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
+            ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
 
-//Границы по оси y
+        //Границы по оси y
 
-    double minY = y0[0], maxY = y0[0];
-    for (int i=1; i<N; i++)
-    {
-        if (y0[i]<minY) minY = y0[i];
-        if (y0[i]>maxY) maxY = y0[i];
-    }
+            double minY = y1[0], maxY = y1[0];
+            for (int i=1; i<N; i++)
+            {
+                if (y1[i]<minY) minY = y1[i];
+                if (y1[i]>maxY) maxY = y1[i];
+            }
 
-    ui->widget->yAxis->setRange(minY, maxY);
+            ui->widget->yAxis->setRange(minY, maxY);
 
-    ui->widget->replot();
-    ui->widget->rescaleAxes();
+            ui->widget->replot();
+            ui->widget->rescaleAxes();
+            }
+        counter++;
+        break;
+        }
+        case 2:
+        {
+            if (N - int(N) != 0)
+            {
+                QMessageBox msgBox;
+                msgBox.setIcon(QMessageBox::Critical);
+                msgBox.setWindowTitle("Внимание");
+                msgBox.setText("Введите другой шаг");
+                msgBox.exec();
+            }
+
+        //Вычисляем наши данные
+            else
+            {
+            QVector<double> x(N), y2(N);
+
+            int i=0;
+
+        //Записываем данные в переменную
+
+            QFile fileOut(QCoreApplication::applicationDirPath() + "/Output/fileOut.txt");
+            if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
+            {
+                QTextStream in(&fileOut);
+                for (double X=a; fabs(X - b) >= 0.00001; X+= h)
+                {
+                    x[i] = X;
+                    y2[i] = X*X+on_choose_clicked();
+                    in << x[i] << "\t" << y2[i] << "\n";
+                    i++;
+                }
+                x[i]=b;
+                y2[i]=b*b+on_choose_clicked();
+                in << x[i] << "\t" << y2[i]  << "\n";
+
+                fileOut.close();
+            }
+        //Отрисовка графика
+
+            ui->widget->addGraph();
+            ui->widget->graph(counter)->setData(x, y2);
+            ui->widget->graph(counter)->setPen(QPen(Qt::yellow));
+
+        //Границы по оси х
+
+            ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
+
+        //Границы по оси y
+
+            double minY = y2[0], maxY = y2[0];
+            for (int i=1; i<N; i++)
+            {
+                if (y2[i]<minY) minY = y2[i];
+                if (y2[i]>maxY) maxY = y2[i];
+            }
+
+            ui->widget->yAxis->setRange(minY, maxY);
+
+            ui->widget->replot();
+            ui->widget->rescaleAxes();
+            counter++;
+            }
+         break;
+        }
+        default:
+        {
+            counter = 0;
+            goto rewind;
+        }
     }
 }
+
+
 
 void MainWindow::mouseWheel()
 {
