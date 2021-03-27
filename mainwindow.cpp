@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->widget, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(mousePress()));
     connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
 
-    connect(ui->widget, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), this, SLOT(graphClicked(QCPAbstractPlottable*,int)));
+    //connect(ui->widget, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), this, SLOT(graphClicked(QCPAbstractPlottable*,int)));
 
     ui->widget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->widget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequest(QPoint)));
@@ -176,7 +176,6 @@ void MainWindow::mousePress()
 double MainWindow::on_choose_clicked()
 {
     QString func = ui->material->currentText();
-    qDebug() << QString( QCoreApplication::applicationDirPath() + "/Materials/Materials.txt" );
     QFile file(QCoreApplication::applicationDirPath() + "/Materials/Materials.txt");
     QStringList strList;
     if (file.open(QIODevice::ReadOnly))
