@@ -44,9 +44,12 @@ private slots:
 
     void selectionChanged();
 
+    void createMenus();
+
 private:
     Ui::MainWindow *ui;
     QCPItemTracer *tracer;
+    QCPLegend *Legend;
     double leftX,rightX;
     int counter = 0;
 };

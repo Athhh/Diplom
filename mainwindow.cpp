@@ -4,7 +4,7 @@
 #include <QFile>
 #include <QDebug>
 #include <QTextStream>
-
+#include <QStatusBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -31,16 +31,43 @@ MainWindow::MainWindow(QWidget *parent)
     legendFont.setPointSize(10);
     ui->widget->legend->setSelectedFont(legendFont);
     ui->widget->legend->setSelectableParts(QCPLegend::spItems);
+    //ui->widget->QCustomPlot::setAutoAddPlottableToLegend(false);
 // connect slot that ties some axis selections together (especially opposite axes):
      connect(ui->widget, SIGNAL(selectionChangedByUser()), this, SLOT(selectionChanged()));
 // connect slots that takes care that when an axis is selected, only that direction can be dragged and zoomed:
     connect(ui->widget, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(mousePress()));
     connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
 
-    //connect(ui->widget, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), this, SLOT(graphClicked(QCPAbstractPlottable*,int)));
-
     ui->widget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->widget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequest(QPoint)));
+
+    createMenus();
+
+}
+
+void MainWindow::createMenus()
+{
+//Панель управления
+    QAction *newa = new QAction("&Новый Файл", this);
+    QAction *open = new QAction("&Открыть файл", this);
+    QAction *quit = new QAction("&Выход", this);
+    QAction *file = new QAction("&File", this);
+
+//Шорткаты
+
+    quit->setShortcut(tr("CTRL+Q"));
+    file->setShortcut(tr("ALT+F"));
+
+    QMenu *fileMenu;
+    fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(newa);
+    fileMenu->addAction(open);
+    fileMenu->addSeparator();
+    fileMenu->addAction(quit);
+
+    connect(quit, &QAction::triggered, qApp, &QApplication::quit);
+
+    statusBar()->showMessage("Готово к работе");
 }
 
 MainWindow::~MainWindow()
@@ -122,7 +149,7 @@ void MainWindow::on_plot_clicked()
 
                 ui->widget->addGraph();
                 ui->widget->graph(counter)->setData(x, y0);
-                ui->widget->graph(counter)->setPen(QPen(Qt::blue));
+                ui->widget->graph(counter)->setPen(QPen(Qt::green));
 
             //Границы по оси х
 
@@ -138,7 +165,6 @@ void MainWindow::on_plot_clicked()
                 }
 
                 ui->widget->yAxis->setRange(minY, maxY);
-
                 ui->widget->replot();
                 ui->widget->rescaleAxes();
                 counter++;
@@ -270,6 +296,7 @@ void MainWindow::on_plot_clicked()
             ui->widget->replot();
             ui->widget->rescaleAxes();
             counter++;
+            ui->widget->QCustomPlot::setAutoAddPlottableToLegend(false);
             }
          break;
         }
@@ -373,6 +400,7 @@ void MainWindow::removeAllGraphs()
 {
   ui->widget->clearGraphs();
   ui->widget->replot();
+  counter = 0;
 }
 
 void MainWindow::selectionChanged()
@@ -391,7 +419,7 @@ void MainWindow::selectionChanged()
     ui->widget->yAxis->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
   }
 
-  for (int i=0; i<ui->widget->graphCount(); ++i)
+  for (int i=0; i<3; ++i)
   {
     QCPGraph *graph = ui->widget->graph(i);
     QCPPlottableLegendItem *item = ui->widget->legend->itemWithPlottable(graph);
@@ -401,6 +429,6 @@ void MainWindow::selectionChanged()
       tracer->setGraph(graph);
       tracer->setStyle(QCPItemTracer::tsPlus);
       graph->setSelection(QCPDataSelection(graph->data()->dataRange()));
-    }
-  }
+    } 
+  } 
 }
