@@ -101,7 +101,7 @@ void MainWindow::on_plot_clicked()
     double b = on_rightX_editingFinished();
     double h = on_acc_editingFinished();
 
-//Количество отрисовываемых точек
+//Количество отрисовываемых точекq
 
     double N = (b-a)/(h)+1;
 
