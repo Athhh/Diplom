@@ -4,7 +4,6 @@
 #include <QFile>
 #include <QDebug>
 #include <QTextStream>
-#include <QStatusBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -37,9 +36,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->widget, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(mousePress()));
     connect(ui->widget, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
 
-    ui->widget->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->widget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequest(QPoint)));
+    //ui->widget->setContextMenuPolicy(Qt::CustomContextMenu);
+    //connect(ui->widget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequest(QPoint)));
 
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
 }
 
 void MainWindow::createMenus()
@@ -72,21 +76,21 @@ void MainWindow::createLegend()
     //Первый график
 
     graph1 = ui->widget->addGraph();
-    graph1->setName("Graph 1");
+
     graph1->addToLegend();
     ui->widget->legend->itemWithPlottable(graph1)->setVisible(false);
 
     //Второй график
 
     graph2 = ui->widget->addGraph();
-    graph2->setName("Graph 2");
+    graph2->setName(ui->material->currentText());
     graph2->addToLegend();
     ui->widget->legend->itemWithPlottable(graph2)->setVisible(false);
 
     //Третий график
 
     graph3 = ui->widget->addGraph();
-    graph3->setName("Graph 3");
+    graph3->setName(ui->material->currentText());
     graph3->addToLegend();
     ui->widget->legend->itemWithPlottable(graph3)->setVisible(false);
 
@@ -97,11 +101,6 @@ void MainWindow::createLegend()
     ui->widget->legend->setSelectedFont(legendFont);
     ui->widget->legend->setSelectableParts(QCPLegend::spItems);
     ui->widget->setAutoAddPlottableToLegend(false);
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
 }
 
 double MainWindow::on_acc_selectionChanged()
@@ -120,6 +119,24 @@ double MainWindow::on_rightX_editingFinished()
 {
     rightX = ui->rightX->text().toDouble();
     return rightX;
+}
+
+double MainWindow::on_choose_clicked()
+{
+    QString func = ui->material->currentText();
+    QFile file(QCoreApplication::applicationDirPath() + "/Materials/Materials.txt");
+    QStringList strList;
+    if (file.open(QIODevice::ReadOnly))
+    {
+        while(!file.atEnd())
+        {
+            strList << file.readLine();
+        }
+    }
+
+    return strList[ui->material->currentIndex()].toDouble();
+
+    file.close();
 }
 
 void MainWindow::on_plot_clicked()
@@ -151,6 +168,8 @@ void MainWindow::on_plot_clicked()
             //Вычисляем наши данные
                 else
                 {
+                    graph1->setName(ui->material->currentText());
+
                     QVector<double> x(N), y0(N);
 
                     int i=0;
@@ -207,6 +226,8 @@ void MainWindow::on_plot_clicked()
         //Вычисляем наши данные
             else
                 {
+                graph2->setName(ui->material->currentText());
+
                 QVector<double> x(N), y1(N);
 
                 int i=0;
@@ -263,6 +284,8 @@ void MainWindow::on_plot_clicked()
             //Вычисляем наши данные
                 else
                 {
+                graph3->setName(ui->material->currentText());
+
                 QVector<double> x(N), y2(N);
 
                 int i=0;
@@ -322,18 +345,6 @@ void MainWindow::on_plot_clicked()
     }
 }
 
-
-
-void MainWindow::mouseWheel()
-{
-    if (ui->widget->xAxis->selectedParts().testFlag(QCPAxis::spAxis))
-    ui->widget->axisRect()->setRangeZoom(ui->widget->xAxis->orientation());
-    else if (ui->widget->yAxis->selectedParts().testFlag(QCPAxis::spAxis))
-    ui->widget->axisRect()->setRangeZoom(ui->widget->yAxis->orientation());
-    else
-    ui->widget->axisRect()->setRangeZoom(Qt::Horizontal|Qt::Vertical);
-}
-
 void MainWindow::mousePress()
 {
   if (ui->widget->xAxis->selectedParts().testFlag(QCPAxis::spAxis))
@@ -344,88 +355,14 @@ void MainWindow::mousePress()
     ui->widget->axisRect()->setRangeDrag(Qt::Horizontal|Qt::Vertical);
 }
 
-double MainWindow::on_choose_clicked()
+void MainWindow::mouseWheel()
 {
-    QString func = ui->material->currentText();
-    QFile file(QCoreApplication::applicationDirPath() + "/Materials/Materials.txt");
-    QStringList strList;
-    if (file.open(QIODevice::ReadOnly))
-    {
-        while(!file.atEnd())
-        {
-            strList << file.readLine();
-        }
-    }
-
-    return strList[ui->material->currentIndex()].toDouble();
-
-    file.close();
-}
-
-void MainWindow::slotMouseMove(QMouseEvent *event)
-{
-    if(QApplication::mouseButtons()) slotMousePress(event);
-}
-
-void MainWindow::slotMousePress(QMouseEvent *event)
-{
-// Определяем координату X на графике, где был произведён клик мышью
-
-    double coordX = ui->widget->xAxis->pixelToCoord(event->pos().x());
-
-// По координате X клика мыши определим ближайшие координаты для трассировщика
-
-    tracer->setGraphKey(coordX);
-    tracer->updatePosition();
-
-// Выводим координаты точки графика, где установился трассировщик, в label
-
-    ui->coord->setText("Координата x: " + QString::number(tracer->position->key()) + " y: " + QString::number(tracer->position->value()));
-
-// Перерисовываем содержимое полотна графика
-
-    ui->widget->replot();
-}
-
-void MainWindow::contextMenuRequest(QPoint pos)
-{
-  QMenu *menu = new QMenu(this);
-  menu->setAttribute(Qt::WA_DeleteOnClose);
-  {
-    if (ui->widget->selectedGraphs().size() > 0)
-    menu->addAction("Удалить выбранный график", this, SLOT(removeSelectedGraph()));
-    if (ui->widget->graphCount() > 0)
-    menu->addAction("Удалить все графики", this, SLOT(removeAllGraphs()));
-  }
-  menu->popup(ui->widget->mapToGlobal(pos));
-}
-
-
-void MainWindow::removeSelectedGraph()
-{
-  if (ui->widget->selectedGraphs().size() > 0)
-  {
-    ui->widget->removeGraph(ui->widget->selectedGraphs().first());
-    ui->widget->replot();
-  }
-}
-
-void MainWindow::removeAllGraphs()
-{
-    ui->widget->clearGraphs();
-    createLegend();
-    ui->widget->legend->setVisible(false);
-    ui->widget->replot();
-    counter = 0;
-}
-
-void MainWindow::wrongBorders()
-{
-    QMessageBox stepBox;
-    stepBox.setIcon(QMessageBox::Critical);
-    stepBox.setWindowTitle("Внимание");
-    stepBox.setText("Шаг должен быть неотрицательным");
-    stepBox.exec();
+    if (ui->widget->xAxis->selectedParts().testFlag(QCPAxis::spAxis))
+    ui->widget->axisRect()->setRangeZoom(ui->widget->xAxis->orientation());
+    else if (ui->widget->yAxis->selectedParts().testFlag(QCPAxis::spAxis))
+    ui->widget->axisRect()->setRangeZoom(ui->widget->yAxis->orientation());
+    else
+    ui->widget->axisRect()->setRangeZoom(Qt::Horizontal|Qt::Vertical);
 }
 
 void MainWindow::selectionChanged()
@@ -455,5 +392,48 @@ void MainWindow::selectionChanged()
       tracer->setStyle(QCPItemTracer::tsPlus);
       graph->setSelection(QCPDataSelection(graph->data()->dataRange()));
     }
-  } 
+  }
+}
+
+void MainWindow::slotMouseMove(QMouseEvent *event)
+{
+    if(QApplication::mouseButtons()) slotMousePress(event);
+}
+
+void MainWindow::slotMousePress(QMouseEvent *event)
+{
+// Определяем координату X на графике, где был произведён клик мышью
+
+    double coordX = ui->widget->xAxis->pixelToCoord(event->pos().x());
+
+// По координате X клика мыши определим ближайшие координаты для трассировщика
+
+    tracer->setGraphKey(coordX);
+    tracer->updatePosition();
+
+// Выводим координаты точки графика, где установился трассировщик, в label
+
+    ui->coord->setText("Координата x: " + QString::number(tracer->position->key()) + " y: " + QString::number(tracer->position->value()));
+
+// Перерисовываем содержимое полотна графика
+
+    ui->widget->replot();
+}
+
+void MainWindow::wrongBorders()
+{
+    QMessageBox stepBox;
+    stepBox.setIcon(QMessageBox::Critical);
+    stepBox.setWindowTitle("Внимание");
+    stepBox.setText("Шаг должен быть неотрицательным");
+    stepBox.exec();
+}
+
+void MainWindow::on_removeAllGraphs_clicked()
+{
+    ui->widget->clearGraphs();
+    createLegend();
+    ui->widget->legend->setVisible(false);
+    ui->widget->replot();
+    counter = 0;
 }

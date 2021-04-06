@@ -36,12 +36,6 @@ private slots:
 
     void mousePress();
 
-    void contextMenuRequest(QPoint pos);
-
-    void removeSelectedGraph();
-
-    void removeAllGraphs();
-
     void selectionChanged();
 
     void createMenus();
@@ -49,6 +43,8 @@ private slots:
     void wrongBorders();
 
     void createLegend();
+
+    void on_removeAllGraphs_clicked();
 
 private:
     Ui::MainWindow *ui;
