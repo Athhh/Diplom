@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     legendFont.setPointSize(10);
     ui->widget->legend->setSelectedFont(legendFont);
     ui->widget->legend->setSelectableParts(QCPLegend::spItems);
+    ui->widget->setAutoAddPlottableToLegend(false);
     //ui->widget->QCustomPlot::setAutoAddPlottableToLegend(false);
 // connect slot that ties some axis selections together (especially opposite axes):
      connect(ui->widget, SIGNAL(selectionChangedByUser()), this, SLOT(selectionChanged()));
@@ -78,6 +79,14 @@ MainWindow::~MainWindow()
 double MainWindow::on_acc_editingFinished()
 {
     double acc = ui->acc->text().toDouble();
+    if (acc<0)
+    {
+        QMessageBox stepBox;
+        stepBox.setIcon(QMessageBox::Critical);
+        stepBox.setWindowTitle("Внимание");
+        stepBox.setText("Шаг должен быть неотрицательным");
+        stepBox.exec();
+    }
     return acc;
 }
 
@@ -100,10 +109,10 @@ void MainWindow::on_plot_clicked()
     double a = on_leftX_editingFinished();
     double b = on_rightX_editingFinished();
     double h = on_acc_editingFinished();
+    double N = (b-a)/(h)+1;
+
 
 //Количество отрисовываемых точек
-
-    double N = (b-a)/(h)+1;
 
     switch(counter)
     {
@@ -118,7 +127,6 @@ void MainWindow::on_plot_clicked()
                 msgBox.setText("Введите другой шаг");
                 msgBox.exec();
             }
-
         //Вычисляем наши данные
             else
             {
@@ -146,8 +154,9 @@ void MainWindow::on_plot_clicked()
                     fileOut.close();
                 }
             //Отрисовка графика
-
-                ui->widget->addGraph();
+                graph1 = ui->widget->addGraph();
+                graph1->setName("Graph 1");
+                graph1->addToLegend();
                 ui->widget->graph(counter)->setData(x, y0);
                 ui->widget->graph(counter)->setPen(QPen(Qt::green));
 
@@ -210,7 +219,9 @@ void MainWindow::on_plot_clicked()
             }
         //Отрисовка графика
 
-            ui->widget->addGraph();
+            graph2 = ui->widget->addGraph();
+            graph2->setName("Graph 2");
+            graph2->addToLegend();
             ui->widget->graph(counter)->setData(x, y1);
             ui->widget->graph(counter)->setPen(QPen(Qt::red));
 
@@ -274,7 +285,9 @@ void MainWindow::on_plot_clicked()
             }
         //Отрисовка графика
 
-            ui->widget->addGraph();
+            graph3 = ui->widget->addGraph();
+            graph3->setName("Graph 3");
+            graph3->addToLegend();
             ui->widget->graph(counter)->setData(x, y2);
             ui->widget->graph(counter)->setPen(QPen(Qt::yellow));
 
@@ -296,12 +309,12 @@ void MainWindow::on_plot_clicked()
             ui->widget->replot();
             ui->widget->rescaleAxes();
             counter++;
-            ui->widget->QCustomPlot::setAutoAddPlottableToLegend(false);
             }
          break;
         }
         default:
         {
+            graph1->removeFromLegend();
             counter = 0;
             goto rewind;
         }
@@ -419,7 +432,7 @@ void MainWindow::selectionChanged()
     ui->widget->yAxis->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
   }
 
-  for (int i=0; i<3; ++i)
+  for (int i=0; i<; ++i)
   {
     QCPGraph *graph = ui->widget->graph(i);
     QCPPlottableLegendItem *item = ui->widget->legend->itemWithPlottable(graph);

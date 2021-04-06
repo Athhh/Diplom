@@ -50,6 +50,9 @@ private:
     Ui::MainWindow *ui;
     QCPItemTracer *tracer;
     QCPLegend *Legend;
+    QCPGraph *graph1;
+    QCPGraph *graph2;
+    QCPGraph *graph3;
     double leftX,rightX;
     int counter = 0;
 };
