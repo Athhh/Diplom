@@ -18,7 +18,7 @@ public:
     ~MainWindow();
 
 private slots:
-    double on_acc_editingFinished();
+    double on_acc_selectionChanged();
 
     double on_leftX_editingFinished();
 
@@ -47,6 +47,8 @@ private slots:
     void createMenus();
 
     void wrongBorders();
+
+    void createLegend();
 
 private:
     Ui::MainWindow *ui;

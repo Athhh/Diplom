@@ -11,6 +11,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    createMenus();
+
 //Название графика
     ui->widget->plotLayout()->insertRow(0);
     QCPTextElement *title = new QCPTextElement(ui->widget, "График зависимости интенсивности от энергии", QFont("sans", 18, QFont::Bold));
@@ -27,26 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     tracer->setStyle(QCPItemTracer::tsNone);
     tracer->setSize(10);
 //Легенда
-    //Первый график
-    graph1 = ui->widget->addGraph();
-    graph1->setName("Graph 1");
-    graph1->addToLegend();
-    //Второй график
-    graph2 = ui->widget->addGraph();
-    graph2->setName("Graph 2");
-    graph2->addToLegend();
-    ui->widget->legend->itemWithPlottable(graph2)->setVisible(false);
-    //Третий график
-    graph3 = ui->widget->addGraph();
-    graph3->setName("Graph 3");
-    graph3->addToLegend();
-    ui->widget->legend->itemWithPlottable(graph3)->setVisible(false);
-    QFont legendFont = font();
-    legendFont.setPointSize(10);
-    ui->widget->legend->setSelectedFont(legendFont);
-    ui->widget->legend->setSelectableParts(QCPLegend::spItems);
-    ui->widget->setAutoAddPlottableToLegend(false);
-    //ui->widget->QCustomPlot::setAutoAddPlottableToLegend(false);
+    createLegend();
 // connect slot that ties some axis selections together (especially opposite axes):
      connect(ui->widget, SIGNAL(selectionChangedByUser()), this, SLOT(selectionChanged()));
 // connect slots that takes care that when an axis is selected, only that direction can be dragged and zoomed:
@@ -55,8 +39,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->widget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->widget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequest(QPoint)));
-
-    createMenus();
 
 }
 
@@ -68,7 +50,7 @@ void MainWindow::createMenus()
     QAction *quit = new QAction("&Выход", this);
     QAction *file = new QAction("&File", this);
 
-//Шорткаты
+//Хоткеи
 
     quit->setShortcut(tr("CTRL+Q"));
     file->setShortcut(tr("ALT+F"));
@@ -85,12 +67,43 @@ void MainWindow::createMenus()
     statusBar()->showMessage("Готово к работе");
 }
 
+void MainWindow::createLegend()
+{
+    //Первый график
+
+    graph1 = ui->widget->addGraph();
+    graph1->setName("Graph 1");
+    graph1->addToLegend();
+
+    //Второй график
+
+    graph2 = ui->widget->addGraph();
+    graph2->setName("Graph 2");
+    graph2->addToLegend();
+    ui->widget->legend->itemWithPlottable(graph2)->setVisible(false);
+
+    //Третий график
+
+    graph3 = ui->widget->addGraph();
+    graph3->setName("Graph 3");
+    graph3->addToLegend();
+    ui->widget->legend->itemWithPlottable(graph3)->setVisible(false);
+
+    //Формат легенды
+
+    QFont legendFont = font();
+    legendFont.setPointSize(10);
+    ui->widget->legend->setSelectedFont(legendFont);
+    ui->widget->legend->setSelectableParts(QCPLegend::spItems);
+    ui->widget->setAutoAddPlottableToLegend(false);
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-double MainWindow::on_acc_editingFinished()
+double MainWindow::on_acc_selectionChanged()
 {
     double acc = ui->acc->text().toDouble();
     if (acc<0)
@@ -123,7 +136,7 @@ void MainWindow::on_plot_clicked()
 
     double a = on_leftX_editingFinished();
     double b = on_rightX_editingFinished();
-    double h = on_acc_editingFinished();
+    double h = on_acc_selectionChanged();
     double N = (b-a)/(h)+1;
 
 
@@ -190,14 +203,7 @@ void MainWindow::on_plot_clicked()
         case 1:
         {
         if (N - int(N) != 0)
-            {
-                QMessageBox msgBox;
-                msgBox.setIcon(QMessageBox::Critical);
-                msgBox.setWindowTitle("Внимание");
-                msgBox.setText("Введите другой шаг");
-                msgBox.exec();
-            }
-
+        wrongBorders();
     //Вычисляем наши данные
         else
             {
@@ -253,14 +259,7 @@ void MainWindow::on_plot_clicked()
         case 2:
         {
             if (N - int(N) != 0)
-            {
-                QMessageBox msgBox;
-                msgBox.setIcon(QMessageBox::Critical);
-                msgBox.setWindowTitle("Внимание");
-                msgBox.setText("Введите другой шаг");
-                msgBox.exec();
-            }
-
+            wrongBorders();
         //Вычисляем наши данные
             else
             {
