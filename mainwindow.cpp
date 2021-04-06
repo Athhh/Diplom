@@ -27,6 +27,20 @@ MainWindow::MainWindow(QWidget *parent)
     tracer->setStyle(QCPItemTracer::tsNone);
     tracer->setSize(10);
 //Легенда
+    //Первый график
+    graph1 = ui->widget->addGraph();
+    graph1->setName("Graph 1");
+    graph1->addToLegend();
+    //Второй график
+    graph2 = ui->widget->addGraph();
+    graph2->setName("Graph 2");
+    graph2->addToLegend();
+    ui->widget->legend->itemWithPlottable(graph2)->setVisible(false);
+    //Третий график
+    graph3 = ui->widget->addGraph();
+    graph3->setName("Graph 3");
+    graph3->addToLegend();
+    ui->widget->legend->itemWithPlottable(graph3)->setVisible(false);
     QFont legendFont = font();
     legendFont.setPointSize(10);
     ui->widget->legend->setSelectedFont(legendFont);
@@ -87,6 +101,7 @@ double MainWindow::on_acc_editingFinished()
         stepBox.setText("Шаг должен быть неотрицательным");
         stepBox.exec();
     }
+    else
     return acc;
 }
 
@@ -120,13 +135,7 @@ void MainWindow::on_plot_clicked()
         case 0:
         {
             if (N - int(N) != 0)
-            {
-                QMessageBox msgBox;
-                msgBox.setIcon(QMessageBox::Critical);
-                msgBox.setWindowTitle("Внимание");
-                msgBox.setText("Введите другой шаг");
-                msgBox.exec();
-            }
+            wrongBorders();
         //Вычисляем наши данные
             else
             {
@@ -154,11 +163,9 @@ void MainWindow::on_plot_clicked()
                     fileOut.close();
                 }
             //Отрисовка графика
-                graph1 = ui->widget->addGraph();
-                graph1->setName("Graph 1");
-                graph1->addToLegend();
-                ui->widget->graph(counter)->setData(x, y0);
-                ui->widget->graph(counter)->setPen(QPen(Qt::green));
+
+                graph1->setData(x, y0);
+                graph1->setPen(QPen(Qt::green));
 
             //Границы по оси х
 
@@ -218,12 +225,9 @@ void MainWindow::on_plot_clicked()
                 fileOut.close();
             }
         //Отрисовка графика
-
-            graph2 = ui->widget->addGraph();
-            graph2->setName("Graph 2");
-            graph2->addToLegend();
-            ui->widget->graph(counter)->setData(x, y1);
-            ui->widget->graph(counter)->setPen(QPen(Qt::red));
+            ui->widget->legend->itemWithPlottable(graph2)->setVisible(true);
+            graph2->setData(x, y1);
+            graph2->setPen(QPen(Qt::red));
 
         //Границы по оси х
 
@@ -285,11 +289,9 @@ void MainWindow::on_plot_clicked()
             }
         //Отрисовка графика
 
-            graph3 = ui->widget->addGraph();
-            graph3->setName("Graph 3");
-            graph3->addToLegend();
-            ui->widget->graph(counter)->setData(x, y2);
-            ui->widget->graph(counter)->setPen(QPen(Qt::yellow));
+            ui->widget->legend->itemWithPlottable(graph3)->setVisible(true);
+            graph3->setData(x, y2);
+            graph3->setPen(QPen(Qt::yellow));
 
         //Границы по оси х
 
@@ -314,7 +316,6 @@ void MainWindow::on_plot_clicked()
         }
         default:
         {
-            graph1->removeFromLegend();
             counter = 0;
             goto rewind;
         }
@@ -416,6 +417,15 @@ void MainWindow::removeAllGraphs()
   counter = 0;
 }
 
+void MainWindow::wrongBorders()
+{
+    QMessageBox stepBox;
+    stepBox.setIcon(QMessageBox::Critical);
+    stepBox.setWindowTitle("Внимание");
+    stepBox.setText("Шаг должен быть неотрицательным");
+    stepBox.exec();
+}
+
 void MainWindow::selectionChanged()
 {
   if (ui->widget->xAxis->selectedParts().testFlag(QCPAxis::spAxis) || ui->widget->xAxis->selectedParts().testFlag(QCPAxis::spTickLabels) ||
@@ -432,7 +442,7 @@ void MainWindow::selectionChanged()
     ui->widget->yAxis->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
   }
 
-  for (int i=0; i<; ++i)
+  for (int i=0; i<ui->widget->graphCount(); ++i)
   {
     QCPGraph *graph = ui->widget->graph(i);
     QCPPlottableLegendItem *item = ui->widget->legend->itemWithPlottable(graph);

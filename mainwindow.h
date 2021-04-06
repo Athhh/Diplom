@@ -46,6 +46,8 @@ private slots:
 
     void createMenus();
 
+    void wrongBorders();
+
 private:
     Ui::MainWindow *ui;
     QCPItemTracer *tracer;
