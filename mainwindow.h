@@ -59,5 +59,6 @@ private:
     QCPGraph *graph3;
     double leftX,rightX;
     int counter = 0;
+    int numberOfGraphs = 0;
 };
 #endif // MAINWINDOW_H

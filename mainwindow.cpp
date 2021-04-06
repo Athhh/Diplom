@@ -74,6 +74,7 @@ void MainWindow::createLegend()
     graph1 = ui->widget->addGraph();
     graph1->setName("Graph 1");
     graph1->addToLegend();
+    ui->widget->legend->itemWithPlottable(graph1)->setVisible(false);
 
     //Второй график
 
@@ -106,15 +107,6 @@ MainWindow::~MainWindow()
 double MainWindow::on_acc_selectionChanged()
 {
     double acc = ui->acc->text().toDouble();
-    if (acc<0)
-    {
-        QMessageBox stepBox;
-        stepBox.setIcon(QMessageBox::Critical);
-        stepBox.setWindowTitle("Внимание");
-        stepBox.setText("Шаг должен быть неотрицательным");
-        stepBox.exec();
-    }
-    else
     return acc;
 }
 
@@ -139,20 +131,139 @@ void MainWindow::on_plot_clicked()
     double h = on_acc_selectionChanged();
     double N = (b-a)/(h)+1;
 
-
-//Количество отрисовываемых точек
-
-    switch(counter)
+    if (h<0)
     {
-        rewind:
-        case 0:
+        QMessageBox stepBox;
+        stepBox.setIcon(QMessageBox::Critical);
+        stepBox.setWindowTitle("Внимание");
+        stepBox.setText("Шаг должен быть неотрицательным");
+        stepBox.exec();
+    }
+    else
+    {
+        switch(counter)
         {
+            rewind:
+            case 0:
+            {
+                if (N - int(N) != 0)
+                wrongBorders();
+            //Вычисляем наши данные
+                else
+                {
+                    QVector<double> x(N), y0(N);
+
+                    int i=0;
+
+                //Записываем данные в переменную
+
+                    QFile fileOut(QCoreApplication::applicationDirPath() + "/Output/fileOut.txt");
+                    if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
+                    {
+                        QTextStream in(&fileOut);
+                        for (double X=a; fabs(X - b) >= 0.00001; X+= h)
+                        {
+                            x[i] = X;
+                            y0[i] = X*X+on_choose_clicked();
+                            in << x[i] << "\t" << y0[i] << "\n";
+                            i++;
+                        }
+                        x[i]=b;
+                        y0[i]=b*b+on_choose_clicked();
+                        in << x[i] << "\t" << y0[i]  << "\n";
+
+                        fileOut.close();
+                    }
+                //Отрисовка графика
+
+                    ui->widget->legend->itemWithPlottable(graph1)->setVisible(true);
+                    graph1->setData(x, y0);
+                    graph1->setPen(QPen(Qt::green));
+
+                //Границы по оси х
+
+                    ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
+
+                //Границы по оси y
+
+                    double minY = y0[0], maxY = y0[0];
+                    for (int i=1; i<N; i++)
+                    {
+                        if (y0[i]<minY) minY = y0[i];
+                        if (y0[i]>maxY) maxY = y0[i];
+                    }
+
+                    ui->widget->yAxis->setRange(minY, maxY);
+                    ui->widget->replot();
+                    ui->widget->rescaleAxes();
+                    counter++;
+                    break;
+                }
+            }
+            case 1:
+            {
             if (N - int(N) != 0)
             wrongBorders();
         //Вычисляем наши данные
             else
+                {
+                QVector<double> x(N), y1(N);
+
+                int i=0;
+
+                //Записываем данные в переменную
+
+                QFile fileOut(QCoreApplication::applicationDirPath() + "/Output/fileOut.txt");
+                if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
+                {
+                    QTextStream in(&fileOut);
+                    for (double X=a; fabs(X - b) >= 0.00001; X+= h)
+                    {
+                        x[i] = X;
+                        y1[i] = -X*X+on_choose_clicked();
+                        in << x[i] << "\t" << y1[i] << "\n";
+                        i++;
+                    }
+                    x[i]=b;
+                    y1[i]=-b*b+on_choose_clicked();
+                    in << x[i] << "\t" << y1[i]  << "\n";
+
+                    fileOut.close();
+                }
+            //Отрисовка графика
+                ui->widget->legend->itemWithPlottable(graph2)->setVisible(true);
+                graph2->setData(x, y1);
+                graph2->setPen(QPen(Qt::red));
+
+            //Границы по оси х
+
+                ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
+
+            //Границы по оси y
+
+                double minY = y1[0], maxY = y1[0];
+                for (int i=1; i<N; i++)
+                {
+                    if (y1[i]<minY) minY = y1[i];
+                    if (y1[i]>maxY) maxY = y1[i];
+                }
+
+                ui->widget->yAxis->setRange(minY, maxY);
+
+                ui->widget->replot();
+                ui->widget->rescaleAxes();
+                }
+            counter++;
+            break;
+            }
+            case 2:
             {
-                QVector<double> x(N), y0(N);
+                if (N - int(N) != 0)
+                wrongBorders();
+            //Вычисляем наши данные
+                else
+                {
+                QVector<double> x(N), y2(N);
 
                 int i=0;
 
@@ -165,20 +276,21 @@ void MainWindow::on_plot_clicked()
                     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
                     {
                         x[i] = X;
-                        y0[i] = X*X+on_choose_clicked();
-                        in << x[i] << "\t" << y0[i] << "\n";
+                        y2[i] = qExp(X/2)+on_choose_clicked();
+                        in << x[i] << "\t" << y2[i] << "\n";
                         i++;
                     }
                     x[i]=b;
-                    y0[i]=b*b+on_choose_clicked();
-                    in << x[i] << "\t" << y0[i]  << "\n";
+                    y2[i]=qExp(b/2)+on_choose_clicked();
+                    in << x[i] << "\t" << y2[i]  << "\n";
 
                     fileOut.close();
                 }
             //Отрисовка графика
 
-                graph1->setData(x, y0);
-                graph1->setPen(QPen(Qt::green));
+                ui->widget->legend->itemWithPlottable(graph3)->setVisible(true);
+                graph3->setData(x, y2);
+                graph3->setPen(QPen(Qt::yellow));
 
             //Границы по оси х
 
@@ -186,137 +298,26 @@ void MainWindow::on_plot_clicked()
 
             //Границы по оси y
 
-                double minY = y0[0], maxY = y0[0];
+                double minY = y2[0], maxY = y2[0];
                 for (int i=1; i<N; i++)
                 {
-                    if (y0[i]<minY) minY = y0[i];
-                    if (y0[i]>maxY) maxY = y0[i];
+                    if (y2[i]<minY) minY = y2[i];
+                    if (y2[i]>maxY) maxY = y2[i];
                 }
 
                 ui->widget->yAxis->setRange(minY, maxY);
+
                 ui->widget->replot();
                 ui->widget->rescaleAxes();
                 counter++;
-                break;
-            }
-        }
-        case 1:
-        {
-        if (N - int(N) != 0)
-        wrongBorders();
-    //Вычисляем наши данные
-        else
-            {
-            QVector<double> x(N), y1(N);
-
-            int i=0;
-
-        //Записываем данные в переменную
-
-            QFile fileOut(QCoreApplication::applicationDirPath() + "/Output/fileOut.txt");
-            if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
-            {
-                QTextStream in(&fileOut);
-                for (double X=a; fabs(X - b) >= 0.00001; X+= h)
-                {
-                    x[i] = X;
-                    y1[i] = X*X+on_choose_clicked();
-                    in << x[i] << "\t" << y1[i] << "\n";
-                    i++;
                 }
-                x[i]=b;
-                y1[i]=b*b+on_choose_clicked();
-                in << x[i] << "\t" << y1[i]  << "\n";
-
-                fileOut.close();
+             break;
             }
-        //Отрисовка графика
-            ui->widget->legend->itemWithPlottable(graph2)->setVisible(true);
-            graph2->setData(x, y1);
-            graph2->setPen(QPen(Qt::red));
-
-        //Границы по оси х
-
-            ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
-
-        //Границы по оси y
-
-            double minY = y1[0], maxY = y1[0];
-            for (int i=1; i<N; i++)
+            default:
             {
-                if (y1[i]<minY) minY = y1[i];
-                if (y1[i]>maxY) maxY = y1[i];
+                counter = 0;
+                goto rewind;
             }
-
-            ui->widget->yAxis->setRange(minY, maxY);
-
-            ui->widget->replot();
-            ui->widget->rescaleAxes();
-            }
-        counter++;
-        break;
-        }
-        case 2:
-        {
-            if (N - int(N) != 0)
-            wrongBorders();
-        //Вычисляем наши данные
-            else
-            {
-            QVector<double> x(N), y2(N);
-
-            int i=0;
-
-        //Записываем данные в переменную
-
-            QFile fileOut(QCoreApplication::applicationDirPath() + "/Output/fileOut.txt");
-            if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
-            {
-                QTextStream in(&fileOut);
-                for (double X=a; fabs(X - b) >= 0.00001; X+= h)
-                {
-                    x[i] = X;
-                    y2[i] = X*X+on_choose_clicked();
-                    in << x[i] << "\t" << y2[i] << "\n";
-                    i++;
-                }
-                x[i]=b;
-                y2[i]=b*b+on_choose_clicked();
-                in << x[i] << "\t" << y2[i]  << "\n";
-
-                fileOut.close();
-            }
-        //Отрисовка графика
-
-            ui->widget->legend->itemWithPlottable(graph3)->setVisible(true);
-            graph3->setData(x, y2);
-            graph3->setPen(QPen(Qt::yellow));
-
-        //Границы по оси х
-
-            ui->widget->xAxis->setRange(on_leftX_editingFinished(), on_rightX_editingFinished());
-
-        //Границы по оси y
-
-            double minY = y2[0], maxY = y2[0];
-            for (int i=1; i<N; i++)
-            {
-                if (y2[i]<minY) minY = y2[i];
-                if (y2[i]>maxY) maxY = y2[i];
-            }
-
-            ui->widget->yAxis->setRange(minY, maxY);
-
-            ui->widget->replot();
-            ui->widget->rescaleAxes();
-            counter++;
-            }
-         break;
-        }
-        default:
-        {
-            counter = 0;
-            goto rewind;
         }
     }
 }
@@ -411,9 +412,11 @@ void MainWindow::removeSelectedGraph()
 
 void MainWindow::removeAllGraphs()
 {
-  ui->widget->clearGraphs();
-  ui->widget->replot();
-  counter = 0;
+    ui->widget->clearGraphs();
+    createLegend();
+    ui->widget->legend->setVisible(false);
+    ui->widget->replot();
+    counter = 0;
 }
 
 void MainWindow::wrongBorders()
@@ -441,9 +444,9 @@ void MainWindow::selectionChanged()
     ui->widget->yAxis->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
   }
 
-  for (int i=0; i<ui->widget->graphCount(); ++i)
+  for (counter=0; counter<ui->widget->graphCount(); ++counter)
   {
-    QCPGraph *graph = ui->widget->graph(i);
+    QCPGraph *graph = ui->widget->graph(counter);
     QCPPlottableLegendItem *item = ui->widget->legend->itemWithPlottable(graph);
     if (item->selected() || graph->selected())
     {
@@ -451,6 +454,6 @@ void MainWindow::selectionChanged()
       tracer->setGraph(graph);
       tracer->setStyle(QCPItemTracer::tsPlus);
       graph->setSelection(QCPDataSelection(graph->data()->dataRange()));
-    } 
+    }
   } 
 }
