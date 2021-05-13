@@ -273,8 +273,9 @@ void MainWindow::on_plot_clicked()
 
                 ui->widget->replot();
                 ui->widget->rescaleAxes();
+                counter++;
                 }
-            counter++;
+
             break;
             }
             case 2:
