@@ -61,8 +61,8 @@ private:
     double eqPlotnost;
 
     QString tau;
-    double sigma;
-    double mu;
+    QString sigma;
+    QString mu;
 
     double leftX,rightX;
     int counter = 0;

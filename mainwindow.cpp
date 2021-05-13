@@ -4,6 +4,8 @@
 #include <QFile>
 #include <QDebug>
 #include <QTextStream>
+#include <QtMath>
+#include <QScriptEngine>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -121,7 +123,7 @@ double MainWindow::on_rightX_editingFinished()
     return rightX;
 }
 
-void MainWindow::on_choose_clicked() //возвращает атомный номер
+void MainWindow::on_choose_clicked()
 {
     QFile atomNumber(QCoreApplication::applicationDirPath() + "/Materials/atomniy_nomer.txt");
     QStringList number;
@@ -166,6 +168,114 @@ void MainWindow::on_choose_clicked() //возвращает атомный но�
     atomPlotnost.close();
 }
 
+double MainWindow::oslableniyeTau(double x)
+{
+    switch(ui->material->currentIndex())
+    {
+    case 0: //H
+        {
+            tau = "-(0.2645*Math.pow(10,-2))*X+(0.7487*0.1)*Math.pow(X,-1)-(0.7487*10)*Math.pow(X,-2)+(0.5575*10)*Math.pow(X,-3)-(-0.1936*10)*Math.pow(X,-4)";
+            tau.replace("X", QString::number(x));
+            QScriptEngine engine;
+            QScriptValue value = engine.evaluate(tau);
+            return value.toNumber();
+            break;
+        }
+    case 1: //He
+        {
+            tau = "-(0.2154*Math.pow(10,-2))*X+(0.1473*10)*Math.pow(X,-1)-(0.3322*10)*Math.pow(X,-2)+(0.4893*100)*Math.pow(X,-3)-(-0.4893*100)*Math.pow(X,-4)";
+            tau.replace("X", QString::number(x));
+            QScriptEngine engine;
+            QScriptValue value = engine.evaluate(tau);
+            return value.toNumber();
+            break;
+        }
+    case 2: //Li
+        {
+            tau = "-(0.3411*Math.pow(10,-2))*X+(0.3088*10)*Math.pow(X,-1)-(0.1009*100)*Math.pow(X,-2)+(0.2076*1000)*Math.pow(X,-3)-(-0.4091*10)*Math.pow(X,-4)";
+            tau.replace("X", QString::number(x));
+            QScriptEngine engine;
+            QScriptValue value = engine.evaluate(tau);
+            return value.toNumber();
+            break;
+        }
+    case 3: //Be
+    {
+        tau = "-(0.3142*Math.pow(10,-2))*X+(0.4216*10)*Math.pow(X,-1)-(0.2014*100)*Math.pow(X,-2)+(0.5918*1000)*Math.pow(X,-3)-(-0.4857*100)*Math.pow(X,-4)";
+        tau.replace("X", QString::number(x));
+        QScriptEngine engine;
+        QScriptValue value = engine.evaluate(tau);
+        return value.toNumber();
+        break;
+    }
+    case 4: //B
+    {
+        tau = "-(0.3267*Math.pow(10,-2))*X+(0.5682*10)*Math.pow(X,-1)-(0.3483*100)*Math.pow(X,-2)+(0.1326*10000)*Math.pow(X,-3)-(0.3243*100)*Math.pow(X,-4)";
+        tau.replace("X", QString::number(x));
+        QScriptEngine engine;
+        QScriptValue value = engine.evaluate(tau);
+        return value.toNumber();
+        break;
+    }
+    case 5: //C
+    {
+        tau = "-(0.3172*Math.pow(10,-2))*X+(0.6921*10)*Math.pow(X,-1)-(0.5340*100)*Math.pow(X,-2)+(0.2610*10000)*Math.pow(X,-3)-(0.2941*1000)*Math.pow(X,-4)";
+        tau.replace("X", QString::number(x));
+        QScriptEngine engine;
+        QScriptValue value = engine.evaluate(tau);
+        return value.toNumber();
+        break;
+    }
+    case 6: //N
+    {
+        tau = "-(0.1991*Math.pow(10,-2))*X+(0.6169*10)*Math.pow(X,-1)-(0.6514*100)*Math.pow(X,-2)+(0.4259*10000)*Math.pow(X,-3)-(0.8060*1000)*Math.pow(X,-4)";
+        tau.replace("X", QString::number(x));
+        QScriptEngine engine;
+        QScriptValue value = engine.evaluate(tau);
+        return value.toNumber();
+        break;
+    }
+    case 7: //O
+    {
+        tau = "-(0.2663*Math.pow(10,-2))*X+(0.8397*10)*Math.pow(X,-1)-(0.9179*100)*Math.pow(X,-2)+(0.6634*10000)*Math.pow(X,-3)-(0.1906*10000)*Math.pow(X,-4)";
+        tau.replace("X", QString::number(x));
+        QScriptEngine engine;
+        QScriptValue value = engine.evaluate(tau);
+        return value.toNumber();
+        break;
+    }
+    case 8: //F
+    {
+        tau = "-(0.3038*Math.pow(10,-2))*X+(0.9836*10)*Math.pow(X,-1)-(0.1128*1000)*Math.pow(X,-2)+(0.9171*10000)*Math.pow(X,-3)-(0.3414*10000)*Math.pow(X,-4)";
+        tau.replace("X", QString::number(x));
+        QScriptEngine engine;
+        QScriptValue value = engine.evaluate(tau);
+        return value.toNumber();
+        break;
+    }
+    case 9: //Ne
+    {
+        tau = "-(0.1806*Math.pow(10,-2))*X+(0.7942*10)*Math.pow(X,-1)-(0.1218*1000)*Math.pow(X,-2)+(0.1307*100000)*Math.pow(X,-3)-(0.5600*10000)*Math.pow(X,-4)";
+        tau.replace("X", QString::number(x));
+        QScriptEngine engine;
+        QScriptValue value = engine.evaluate(tau);
+        return value.toNumber();
+        break;
+    }
+    case 10: //Na - вопрос
+    {
+        tau = "-(0.3038*Math.pow(10,-2))*X+(0.9836*10)*Math.pow(X,-1)-(0.1128*1000)*Math.pow(X,-2)+(0.9171*10000)*Math.pow(X,-3)-(0.3414*10000)*Math.pow(X,-4)";
+        tau.replace("X", QString::number(x));
+        QScriptEngine engine;
+        QScriptValue value = engine.evaluate(tau);
+        return value.toNumber();
+        break;
+    }
+
+    }
+
+}
+
 void MainWindow::on_plot_clicked()
 {
     ui->widget->legend->setVisible(true);
@@ -207,15 +317,16 @@ void MainWindow::on_plot_clicked()
                     if (fileOut.open(QIODevice::WriteOnly| QIODevice::Text))
                     {
                         QTextStream in(&fileOut);
-                        for (double X=a; fabs(X - b) >= 0.00001; X+= h)
+                        for (double X=a; fabs(X - b) >= 0.000000000001; X+= h)
                         {
                             x[i] = X;
-                            y0[i] = X*X+eqNumber+eqMass+eqPlotnost;
+                            y0[i] = oslableniyeTau(X);
+                            qDebug()<< y0;
                             in << x[i] << "\t" << y0[i] << "\n";
                             i++;
                         }
                         x[i]=b;
-                        y0[i]=b*b+eqNumber+eqMass+eqPlotnost;
+                        y0[i]=oslableniyeTau(b);
                         in << x[i] << "\t" << y0[i]  << "\n";
 
                         fileOut.close();
@@ -268,12 +379,12 @@ void MainWindow::on_plot_clicked()
                     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
                     {
                         x[i] = X;
-                        y1[i] = -X*X+eqNumber+eqMass+eqPlotnost;
+                        y1[i] = -X*X+oslableniyeTau(X);
                         in << x[i] << "\t" << y1[i] << "\n";
                         i++;
                     }
                     x[i]=b;
-                    y1[i]=-b*b+eqNumber+eqMass+eqPlotnost;
+                    y1[i]=-b*b+oslableniyeTau(b);
                     in << x[i] << "\t" << y1[i]  << "\n";
 
                     fileOut.close();
@@ -327,12 +438,12 @@ void MainWindow::on_plot_clicked()
                     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
                     {
                         x[i] = X;
-                        y2[i] = qExp(X/2)+eqNumber+eqMass+eqPlotnost;
+                        y2[i] = qExp(X/2)+oslableniyeTau(X);
                         in << x[i] << "\t" << y2[i] << "\n";
                         i++;
                     }
                     x[i]=b;
-                    y2[i]=qExp(b/2)+eqNumber+eqMass+eqPlotnost;
+                    y2[i]=qExp(b/2)+oslableniyeTau(b);
                     in << x[i] << "\t" << y2[i]  << "\n";
 
                     fileOut.close();
