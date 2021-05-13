@@ -123,20 +123,47 @@ double MainWindow::on_rightX_editingFinished()
 
 double MainWindow::on_choose_clicked() //возвращает атомный номер
 {
-    QString func = ui->material->currentText();
-    QFile file(QCoreApplication::applicationDirPath() + "/Materials/atomniy_nomer.txt");
-    QStringList strList;
-    if (file.open(QIODevice::ReadOnly))
+    QFile atomNumber(QCoreApplication::applicationDirPath() + "/Materials/atomniy_nomer.txt");
+    QStringList number;
+    if (atomNumber.open(QIODevice::ReadOnly))
     {
-        while(!file.atEnd())
+        while(!atomNumber.atEnd())
         {
-            strList << file.readLine();
+            number << atomNumber.readLine();
         }
     }
 
-    return strList[ui->material->currentIndex()].toDouble();
+    eqNumber = number[ui->material->currentIndex()].toDouble();
 
-    file.close();
+    atomNumber.close();
+
+    QFile atomMass(QCoreApplication::applicationDirPath() + "/Materials/atom_mass.txt");
+    QStringList mass;
+    if (atomMass.open(QIODevice::ReadOnly))
+    {
+        while(!atomMass.atEnd())
+        {
+            mass << atomMass.readLine();
+        }
+    }
+
+    eqMass = mass[ui->material->currentIndex()].toDouble();
+
+    atomMass.close();
+
+    QFile atomPlotnost(QCoreApplication::applicationDirPath() + "/Materials/plotnost.txt");
+    QStringList plotnost;
+    if (atomPlotnost.open(QIODevice::ReadOnly))
+    {
+        while(!atomPlotnost.atEnd())
+        {
+            plotnost << atomPlotnost.readLine();
+        }
+    }
+
+    eqPlotnost = plotnost[ui->material->currentIndex()].toDouble();
+
+    atomPlotnost.close();
 }
 
 void MainWindow::on_plot_clicked()
