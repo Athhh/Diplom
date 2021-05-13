@@ -28,7 +28,7 @@ private slots:
 
     void mouseWheel();
 
-    double on_choose_clicked();
+    void on_choose_clicked();
 
     void slotMousePress(QMouseEvent * event);
 
@@ -53,6 +53,11 @@ private:
     QCPGraph *graph1;
     QCPGraph *graph2;
     QCPGraph *graph3;
+
+    double eqNumber;
+    double eqMass;
+    double eqPlotnost;
+
     double leftX,rightX;
     int counter = 0;
     int numberOfGraphs = 0;

@@ -121,7 +121,7 @@ double MainWindow::on_rightX_editingFinished()
     return rightX;
 }
 
-double MainWindow::on_choose_clicked() //возвращает атомный номер
+void MainWindow::on_choose_clicked() //возвращает атомный номер
 {
     QFile atomNumber(QCoreApplication::applicationDirPath() + "/Materials/atomniy_nomer.txt");
     QStringList number;
@@ -210,12 +210,12 @@ void MainWindow::on_plot_clicked()
                         for (double X=a; fabs(X - b) >= 0.00001; X+= h)
                         {
                             x[i] = X;
-                            y0[i] = X*X+on_choose_clicked();
+                            y0[i] = X*X+eqNumber+eqMass+eqPlotnost;
                             in << x[i] << "\t" << y0[i] << "\n";
                             i++;
                         }
                         x[i]=b;
-                        y0[i]=b*b+on_choose_clicked();
+                        y0[i]=b*b+eqNumber+eqMass+eqPlotnost;
                         in << x[i] << "\t" << y0[i]  << "\n";
 
                         fileOut.close();
@@ -268,12 +268,12 @@ void MainWindow::on_plot_clicked()
                     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
                     {
                         x[i] = X;
-                        y1[i] = -X*X+on_choose_clicked();
+                        y1[i] = -X*X+eqNumber+eqMass+eqPlotnost;
                         in << x[i] << "\t" << y1[i] << "\n";
                         i++;
                     }
                     x[i]=b;
-                    y1[i]=-b*b+on_choose_clicked();
+                    y1[i]=-b*b+eqNumber+eqMass+eqPlotnost;
                     in << x[i] << "\t" << y1[i]  << "\n";
 
                     fileOut.close();
@@ -327,12 +327,12 @@ void MainWindow::on_plot_clicked()
                     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
                     {
                         x[i] = X;
-                        y2[i] = qExp(X/2)+on_choose_clicked();
+                        y2[i] = qExp(X/2)+eqNumber+eqMass+eqPlotnost;
                         in << x[i] << "\t" << y2[i] << "\n";
                         i++;
                     }
                     x[i]=b;
-                    y2[i]=qExp(b/2)+on_choose_clicked();
+                    y2[i]=qExp(b/2)+eqNumber+eqMass+eqPlotnost;
                     in << x[i] << "\t" << y2[i]  << "\n";
 
                     fileOut.close();
