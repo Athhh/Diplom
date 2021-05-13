@@ -121,10 +121,10 @@ double MainWindow::on_rightX_editingFinished()
     return rightX;
 }
 
-double MainWindow::on_choose_clicked()
+double MainWindow::on_choose_clicked() //возвращает атомный номер
 {
     QString func = ui->material->currentText();
-    QFile file(QCoreApplication::applicationDirPath() + "/Materials/Materials.txt");
+    QFile file(QCoreApplication::applicationDirPath() + "/Materials/atomniy_nomer.txt");
     QStringList strList;
     if (file.open(QIODevice::ReadOnly))
     {
