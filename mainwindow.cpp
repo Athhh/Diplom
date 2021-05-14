@@ -225,11 +225,17 @@ double MainWindow::oslableniyeTau(double x)
         }
     case 3: //Be
     {
-        tau = "-(0.3142*Math.pow(10,-2))*X+(0.4216*10)*Math.pow(X,-1)-(0.2014*100)*Math.pow(X,-2)+(0.5918*1000)*Math.pow(X,-3)-(-0.4857*100)*Math.pow(X,-4)";
+        tau = "-(0.3142*Math.pow(10,-2))*X+(0.4216)*Math.pow(X,-1)-(0.2014*100)*Math.pow(X,-2)+(0.5918*1000)*Math.pow(X,-3)-(-0.4857*100)*Math.pow(X,-4)";
+        sigmaK = "(1-3.178*Math.pow(10,-2)*X)*Math.pow((1.267+4.619*0.1*X+3.102*0.01*Math.pow(X,2)-1.493*0.001*Math.pow(X,3)),-1)";
+        sigmaNK = "Math.pow((25.93*Math.pow(X,-1)+5.067+0.02420*X),-1)";
         tau.replace("X", QString::number(x));
-        QScriptEngine engine;
-        QScriptValue value = engine.evaluate(tau);
-        return value.toNumber();
+        sigmaK.replace("X", QString::number(x));
+        sigmaNK.replace("X", QString::number(x));
+        tauValue = engine.evaluate(tau);
+        sigmaKValue = engine.evaluate(sigmaK);
+        sigmaNKValue = engine.evaluate(sigmaNK);
+        weakening = tauValue.toNumber()+sigmaKValue.toNumber()+sigmaNKValue.toNumber();
+        return weakening;
         break;
     }
     case 4: //B
@@ -376,8 +382,8 @@ void MainWindow::on_plot_clicked()
                     ui->widget->replot();
                     ui->widget->rescaleAxes();
                     counter++;
-                    break;
                 }
+            break;
             }
             case 1:
             {

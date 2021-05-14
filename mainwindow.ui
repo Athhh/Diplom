@@ -94,6 +94,46 @@
            <string>Литий</string>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>Бериллий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Углерод</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Азот</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кислород</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фтор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Натрий</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
@@ -142,7 +182,7 @@
      <x>0</x>
      <y>0</y>
      <width>1285</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
