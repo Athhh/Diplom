@@ -171,6 +171,9 @@ void MainWindow::on_choose_clicked()
 double MainWindow::oslableniyeTau(double x)
 {
     QString tau;
+    //QString tau1;
+    //QString tau2;
+
     QString sigma;
     QString sigmaK;
     QString sigmaNK;
@@ -184,7 +187,25 @@ double MainWindow::oslableniyeTau(double x)
 
     switch(ui->material->currentIndex())
     {
-    case 0: //H
+    case 0: //Air
+        {
+            if(x<3.203)
+            {
+                tau = "-(0.1991*Math.pow(10,-2))*X+(0.1169)*Math.pow(X,-1)-(0.1514*100)*Math.pow(X,-2)+(0.4759*10000)*Math.pow(X,-3)-(0.9060*1000)*Math.pow(X,-4)";
+            }
+            else
+            {
+               tau = "-(0.3514*Math.pow(10,2))*Math.pow(X,-2)+(0.5059*10000)*Math.pow(X,-3)-(0.1060*1000)*Math.pow(X,-4)+Math.pow((26.44*Math.pow(X,-1)+4.724+0.01809*X),-1)";
+            }
+            tau.replace("X", QString::number(x));
+            tauValue = engine.evaluate(tau);
+            weakening = tauValue.toNumber();
+            //-(0.1991*Math.pow(10,-2))*X+(0.1169)*Math.pow(X,-1)-(0.1514*100)*Math.pow(X,-2)+(0.4759*10000)*Math.pow(X,-3)-(0.9060*1000)*Math.pow(X,-4)
+            //-(0.3514*Math.pow(10,2))*Math.pow(X,-2)+(0.5059*10000)*Math.pow(X,-3)-(0.1060*1000)*Math.pow(X,-4)+Math.pow((26.44*Math.pow(X,-1)+4.724+0.01809*X),-1)
+            return weakening;
+            break;
+        }
+    case 1: //H
         {
             tau = "-(0.2645*Math.pow(10,-2))*X+(0.7086*0.1)*Math.pow(X,-1)-(0.7487)*Math.pow(X,-2)+(0.5575*10)*Math.pow(X,-3)-(-0.1936*10)*Math.pow(X,-4)";
             sigma = "0.4005*(1/1.008)*Math.pow((1+2*X/511),-2)*(1+2*X/511+0.3*Math.pow(2*X/511,2)-0.0625*Math.pow(2*X/511,3))";
@@ -196,7 +217,7 @@ double MainWindow::oslableniyeTau(double x)
             return weakening;
             break;
         }
-    case 1: //He
+    case 2: //He
         {
             tau = "-(0.2154*Math.pow(10,-2))*X+(0.1473)*Math.pow(X,-1)-(0.3322*10)*Math.pow(X,-2)+(0.4893*100)*Math.pow(X,-3)-(-0.1576*100)*Math.pow(X,-4)";
             sigma = "0.4005*(1/4.003)*Math.pow(1+2*X/511,-2)*(1+2*X/511+0.3*Math.pow(2*X/511,2)-0.0625*Math.pow(2*X/511,3))";
@@ -208,7 +229,7 @@ double MainWindow::oslableniyeTau(double x)
             return weakening;
             break;
         }
-    case 2: //Li
+    case 3: //Li
         {
             tau = "-(0.3411*Math.pow(10,-2))*X+(0.3088)*Math.pow(X,-1)-(0.1009*100)*Math.pow(X,-2)+(0.2076*1000)*Math.pow(X,-3)-(-0.4091*100)*Math.pow(X,-4)";
             sigmaK = "(1+9.326*Math.pow(10,-2)*X)*Math.pow((1.781+8.725*0.1*X+7.963*0.01*Math.pow(X,2)+8.225*0.001*Math.pow(X,3)),-1)";
@@ -223,7 +244,7 @@ double MainWindow::oslableniyeTau(double x)
             return weakening;
             break;
         }
-    case 3: //Be
+    case 4: //Be
     {
         tau = "-(0.3142*Math.pow(10,-2))*X+(0.4216)*Math.pow(X,-1)-(0.2014*100)*Math.pow(X,-2)+(0.5918*1000)*Math.pow(X,-3)-(-0.4857*100)*Math.pow(X,-4)";
         sigmaK = "(1-3.178*Math.pow(10,-2)*X)*Math.pow((1.267+4.619*0.1*X+3.102*0.01*Math.pow(X,2)-1.493*0.001*Math.pow(X,3)),-1)";
@@ -238,16 +259,22 @@ double MainWindow::oslableniyeTau(double x)
         return weakening;
         break;
     }
-    case 4: //B
+    case 5: //B
     {
-        tau = "-(0.3267*Math.pow(10,-2))*X+(0.5682*10)*Math.pow(X,-1)-(0.3483*100)*Math.pow(X,-2)+(0.1326*10000)*Math.pow(X,-3)-(0.3243*100)*Math.pow(X,-4)";
+        tau = "-(0.3267*Math.pow(10,-2))*X+(0.5682)*Math.pow(X,-1)-(0.3483*100)*Math.pow(X,-2)+(0.1326*10000)*Math.pow(X,-3)-(0.3243*100)*Math.pow(X,-4)";
+        sigmaK = "(1+1.544*X)*Math.pow((1.010+1.561*X+6.978*0.1*Math.pow(X,2)+5.025*0.01*Math.pow(X,3)),-1)";
+        sigmaNK = "Math.pow((25.58*Math.pow(X,-1)+4.945+0.02191*X),-1)";
         tau.replace("X", QString::number(x));
-        QScriptEngine engine;
-        QScriptValue value = engine.evaluate(tau);
-        return value.toNumber();
+        sigmaK.replace("X", QString::number(x));
+        sigmaNK.replace("X", QString::number(x));
+        tauValue = engine.evaluate(tau);
+        sigmaKValue = engine.evaluate(sigmaK);
+        sigmaNKValue = engine.evaluate(sigmaNK);
+        weakening = tauValue.toNumber()+sigmaKValue.toNumber()+sigmaNKValue.toNumber();
+        return weakening;
         break;
     }
-    case 5: //C
+    case 6: //C
     {
         tau = "-(0.3172*Math.pow(10,-2))*X+(0.6921*10)*Math.pow(X,-1)-(0.5340*100)*Math.pow(X,-2)+(0.2610*10000)*Math.pow(X,-3)-(0.2941*1000)*Math.pow(X,-4)";
         tau.replace("X", QString::number(x));
@@ -256,7 +283,7 @@ double MainWindow::oslableniyeTau(double x)
         return value.toNumber();
         break;
     }
-    case 6: //N
+    case 7: //N
     {
         tau = "-(0.1991*Math.pow(10,-2))*X+(0.6169*10)*Math.pow(X,-1)-(0.6514*100)*Math.pow(X,-2)+(0.4259*10000)*Math.pow(X,-3)-(0.8060*1000)*Math.pow(X,-4)";
         tau.replace("X", QString::number(x));
@@ -265,7 +292,7 @@ double MainWindow::oslableniyeTau(double x)
         return value.toNumber();
         break;
     }
-    case 7: //O
+    case 8: //O
     {
         tau = "-(0.2663*Math.pow(10,-2))*X+(0.8397*10)*Math.pow(X,-1)-(0.9179*100)*Math.pow(X,-2)+(0.6634*10000)*Math.pow(X,-3)-(0.1906*10000)*Math.pow(X,-4)";
         tau.replace("X", QString::number(x));
@@ -274,7 +301,7 @@ double MainWindow::oslableniyeTau(double x)
         return value.toNumber();
         break;
     }
-    case 8: //F
+    case 9: //F
     {
         tau = "-(0.3038*Math.pow(10,-2))*X+(0.9836*10)*Math.pow(X,-1)-(0.1128*1000)*Math.pow(X,-2)+(0.9171*10000)*Math.pow(X,-3)-(0.3414*10000)*Math.pow(X,-4)";
         tau.replace("X", QString::number(x));
@@ -283,7 +310,7 @@ double MainWindow::oslableniyeTau(double x)
         return value.toNumber();
         break;
     }
-    case 9: //Ne
+    case 10: //Ne
     {
         tau = "-(0.1806*Math.pow(10,-2))*X+(0.7942*10)*Math.pow(X,-1)-(0.1218*1000)*Math.pow(X,-2)+(0.1307*100000)*Math.pow(X,-3)-(0.5600*10000)*Math.pow(X,-4)";
         tau.replace("X", QString::number(x));
@@ -292,7 +319,7 @@ double MainWindow::oslableniyeTau(double x)
         return value.toNumber();
         break;
     }
-    case 10: //Na - вопрос
+    case 11: //Na - вопрос
     {
         tau = "-(0.3038*Math.pow(10,-2))*X+(0.9836*10)*Math.pow(X,-1)-(0.1128*1000)*Math.pow(X,-2)+(0.9171*10000)*Math.pow(X,-3)-(0.3414*10000)*Math.pow(X,-4)";
         tau.replace("X", QString::number(x));

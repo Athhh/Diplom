@@ -81,6 +81,11 @@
         <widget class="QComboBox" name="material">
          <item>
           <property name="text">
+           <string>Воздух</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>Водород</string>
           </property>
          </item>
@@ -182,7 +187,7 @@
      <x>0</x>
      <y>0</y>
      <width>1285</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
