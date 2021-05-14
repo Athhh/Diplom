@@ -276,56 +276,99 @@ double MainWindow::oslableniyeTau(double x)
     }
     case 6: //C
     {
-        tau = "-(0.3172*Math.pow(10,-2))*X+(0.6921*10)*Math.pow(X,-1)-(0.5340*100)*Math.pow(X,-2)+(0.2610*10000)*Math.pow(X,-3)-(0.2941*1000)*Math.pow(X,-4)";
+        tau = "-(0.3172*Math.pow(10,-2))*X+(0.6921)*Math.pow(X,-1)-(0.5340*100)*Math.pow(X,-2)+(0.2610*10000)*Math.pow(X,-3)-(0.2941*1000)*Math.pow(X,-4)";
+        sigmaK = "(1+1.108*X)*Math.pow((8.093*0.1+7.378*0.1*X+3.958*0.1*Math.pow(X,2)+2.532*0.01*Math.pow(X,3)),-1)";
+        sigmaNK = "Math.pow((25.91*Math.pow(X,-1)+4.644+0.01878*X),-1)";
         tau.replace("X", QString::number(x));
-        QScriptEngine engine;
-        QScriptValue value = engine.evaluate(tau);
-        return value.toNumber();
+        sigmaK.replace("X", QString::number(x));
+        sigmaNK.replace("X", QString::number(x));
+        tauValue = engine.evaluate(tau);
+        sigmaKValue = engine.evaluate(sigmaK);
+        sigmaNKValue = engine.evaluate(sigmaNK);
+        weakening = tauValue.toNumber()+sigmaKValue.toNumber()+sigmaNKValue.toNumber();
+        return weakening;
         break;
     }
     case 7: //N
     {
-        tau = "-(0.1991*Math.pow(10,-2))*X+(0.6169*10)*Math.pow(X,-1)-(0.6514*100)*Math.pow(X,-2)+(0.4259*10000)*Math.pow(X,-3)-(0.8060*1000)*Math.pow(X,-4)";
+        tau = "-(0.1991*Math.pow(10,-2))*X+(0.6169)*Math.pow(X,-1)-(0.6514*100)*Math.pow(X,-2)+(0.4259*10000)*Math.pow(X,-3)-(0.8060*1000)*Math.pow(X,-4)";
+        sigmaK = "(1+5.723*0.1*X)*Math.pow((7.260*0.1+2.910*0.1*X+1.824*0.1*Math.pow(X,2)+1.018*0.1*Math.pow(X,3)),-1)";
+        sigmaNK = "Math.pow((26.44*Math.pow(X,-1)+4.724+0.01809*X),-1)";
         tau.replace("X", QString::number(x));
-        QScriptEngine engine;
-        QScriptValue value = engine.evaluate(tau);
-        return value.toNumber();
+        sigmaK.replace("X", QString::number(x));
+        sigmaNK.replace("X", QString::number(x));
+        tauValue = engine.evaluate(tau);
+        sigmaKValue = engine.evaluate(sigmaK);
+        sigmaNKValue = engine.evaluate(sigmaNK);
+        weakening = tauValue.toNumber()+sigmaKValue.toNumber()+sigmaNKValue.toNumber();
+        return weakening;
         break;
     }
     case 8: //O
     {
-        tau = "-(0.2663*Math.pow(10,-2))*X+(0.8397*10)*Math.pow(X,-1)-(0.9179*100)*Math.pow(X,-2)+(0.6634*10000)*Math.pow(X,-3)-(0.1906*10000)*Math.pow(X,-4)";
+        tau = "-(0.2663*Math.pow(10,-2))*X+(0.8397)*Math.pow(X,-1)-(0.9179*100)*Math.pow(X,-2)+(0.6634*10000)*Math.pow(X,-3)-(0.1906*10000)*Math.pow(X,-4)";
+        sigmaK = "(1+3.537*0.1*X)*Math.pow((6.396*0.1+1.543*0.1*X+9.948*0.01*Math.pow(X,2)+4.981*0.001*Math.pow(X,3)),-1)";
+        sigmaNK = "Math.pow((29.88*Math.pow(X,-1)+4.656+0.01857*X),-1)";
         tau.replace("X", QString::number(x));
-        QScriptEngine engine;
-        QScriptValue value = engine.evaluate(tau);
-        return value.toNumber();
+        sigmaK.replace("X", QString::number(x));
+        sigmaNK.replace("X", QString::number(x));
+        tauValue = engine.evaluate(tau);
+        sigmaKValue = engine.evaluate(sigmaK);
+        sigmaNKValue = engine.evaluate(sigmaNK);
+        weakening = tauValue.toNumber()+sigmaKValue.toNumber()+sigmaNKValue.toNumber();
+        return weakening;
         break;
     }
     case 9: //F
     {
-        tau = "-(0.3038*Math.pow(10,-2))*X+(0.9836*10)*Math.pow(X,-1)-(0.1128*1000)*Math.pow(X,-2)+(0.9171*10000)*Math.pow(X,-3)-(0.3414*10000)*Math.pow(X,-4)";
+        tau = "-(0.3038*Math.pow(10,-2))*X+(0.9836)*Math.pow(X,-1)-(0.1128*1000)*Math.pow(X,-2)+(0.9171*10000)*Math.pow(X,-3)-(0.3414*10000)*Math.pow(X,-4)";
+        sigmaK = "(1+2.437*0.1*X)*Math.pow((5.970*0.1+9.989*0.01*X+6.409*0.01*Math.pow(X,2)+2.930*0.001*Math.pow(X,3)),-1)";
+        sigmaNK = "Math.pow((33.40*Math.pow(X,-1)+4.961+0.01913*X),-1)";
         tau.replace("X", QString::number(x));
-        QScriptEngine engine;
-        QScriptValue value = engine.evaluate(tau);
-        return value.toNumber();
+        sigmaK.replace("X", QString::number(x));
+        sigmaNK.replace("X", QString::number(x));
+        tauValue = engine.evaluate(tau);
+        sigmaKValue = engine.evaluate(sigmaK);
+        sigmaNKValue = engine.evaluate(sigmaNK);
+        weakening = tauValue.toNumber()+sigmaKValue.toNumber()+sigmaNKValue.toNumber();
+        return weakening;
         break;
     }
     case 10: //Ne
     {
-        tau = "-(0.1806*Math.pow(10,-2))*X+(0.7942*10)*Math.pow(X,-1)-(0.1218*1000)*Math.pow(X,-2)+(0.1307*100000)*Math.pow(X,-3)-(0.5600*10000)*Math.pow(X,-4)";
+        tau = "-(0.1806*Math.pow(10,-2))*X+(0.7942)*Math.pow(X,-1)-(0.1218*1000)*Math.pow(X,-2)+(0.1307*100000)*Math.pow(X,-3)-(0.5600*10000)*Math.pow(X,-4)";
+        sigmaK = "(1+1.820*0.1*X)*Math.pow((5.118*0.1+6.431*0.01*X+4.065*0.01*Math.pow(X,2)+1.715*0.001*Math.pow(X,3)),-1)";
+        sigmaNK = "Math.pow((37.30*Math.pow(X,-1)+4.629+0.01905*X),-1)";
         tau.replace("X", QString::number(x));
-        QScriptEngine engine;
-        QScriptValue value = engine.evaluate(tau);
-        return value.toNumber();
+        sigmaK.replace("X", QString::number(x));
+        sigmaNK.replace("X", QString::number(x));
+        tauValue = engine.evaluate(tau);
+        sigmaKValue = engine.evaluate(sigmaK);
+        sigmaNKValue = engine.evaluate(sigmaNK);
+        weakening = tauValue.toNumber()+sigmaKValue.toNumber()+sigmaNKValue.toNumber();
+        return weakening;
         break;
     }
-    case 11: //Na - вопрос
+    case 11: //Na
     {
-        tau = "-(0.3038*Math.pow(10,-2))*X+(0.9836*10)*Math.pow(X,-1)-(0.1128*1000)*Math.pow(X,-2)+(0.9171*10000)*Math.pow(X,-3)-(0.3414*10000)*Math.pow(X,-4)";
+        if(x>1.072)
+        {
+          tau = "-(0.3963*Math.pow(10,-2))*X+(0.1359*10)*Math.pow(X,-1)-(0.1720*1000)*Math.pow(X,-2)+(0.1766*100000)*Math.pow(X,-3)-(0.1019*100000)*Math.pow(X,-4)";
+        }
+        else
+        {
+          tau = "(0.8694*1000)*Math.pow(X,-3)-(0.2170*1000)*Math.pow(X,-4)";
+        }
+        sigmaK = "(1+1.029*0.1*X)*Math.pow((4.721*0.1+6.884*0.01*X+2.528*0.01*Math.pow(X,2)+8.577*0.0001*Math.pow(X,3)),-1)";
+        sigmaNK = "Math.pow((38.80*Math.pow(X,-1)+4.901+0.01889*X),-1)";
         tau.replace("X", QString::number(x));
-        QScriptEngine engine;
-        QScriptValue value = engine.evaluate(tau);
-        return value.toNumber();
+        sigmaK.replace("X", QString::number(x));
+        sigmaNK.replace("X", QString::number(x));
+        tauValue = engine.evaluate(tau);
+        sigmaKValue = engine.evaluate(sigmaK);
+        sigmaNKValue = engine.evaluate(sigmaNK);
+        weakening = tauValue.toNumber()+sigmaKValue.toNumber()+sigmaNKValue.toNumber();
+        return weakening;
         break;
     }
     }
