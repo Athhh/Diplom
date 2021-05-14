@@ -170,33 +170,57 @@ void MainWindow::on_choose_clicked()
 
 double MainWindow::oslableniyeTau(double x)
 {
+    QString tau;
+    QString sigma;
+    QString sigmaK;
+    QString sigmaNK;
+
+    QScriptEngine engine;
+
+    QScriptValue tauValue;
+    QScriptValue sigmaValue;
+    QScriptValue sigmaKValue;
+    QScriptValue sigmaNKValue;
+
     switch(ui->material->currentIndex())
     {
     case 0: //H
         {
-            tau = "-(0.2645*Math.pow(10,-2))*X+(0.7487*0.1)*Math.pow(X,-1)-(0.7487*10)*Math.pow(X,-2)+(0.5575*10)*Math.pow(X,-3)-(-0.1936*10)*Math.pow(X,-4)";
+            tau = "-(0.2645*Math.pow(10,-2))*X+(0.7086*0.1)*Math.pow(X,-1)-(0.7487)*Math.pow(X,-2)+(0.5575*10)*Math.pow(X,-3)-(-0.1936*10)*Math.pow(X,-4)";
+            sigma = "0.4005*(1/1.008)*Math.pow((1+2*X/511),-2)*(1+2*X/511+0.3*Math.pow(2*X/511,2)-0.0625*Math.pow(2*X/511,3))";
             tau.replace("X", QString::number(x));
-            QScriptEngine engine;
-            QScriptValue value = engine.evaluate(tau);
-            return value.toNumber();
+            sigma.replace("X", QString::number(x));
+            tauValue = engine.evaluate(tau);
+            sigmaValue = engine.evaluate(sigma);
+            weakening = tauValue.toNumber()+sigmaValue.toNumber();
+            return weakening;
             break;
         }
     case 1: //He
         {
-            tau = "-(0.2154*Math.pow(10,-2))*X+(0.1473*10)*Math.pow(X,-1)-(0.3322*10)*Math.pow(X,-2)+(0.4893*100)*Math.pow(X,-3)-(-0.4893*100)*Math.pow(X,-4)";
+            tau = "-(0.2154*Math.pow(10,-2))*X+(0.1473)*Math.pow(X,-1)-(0.3322*10)*Math.pow(X,-2)+(0.4893*100)*Math.pow(X,-3)-(-0.1576*100)*Math.pow(X,-4)";
+            sigma = "0.4005*(1/4.003)*Math.pow(1+2*X/511,-2)*(1+2*X/511+0.3*Math.pow(2*X/511,2)-0.0625*Math.pow(2*X/511,3))";
             tau.replace("X", QString::number(x));
-            QScriptEngine engine;
-            QScriptValue value = engine.evaluate(tau);
-            return value.toNumber();
+            sigma.replace("X", QString::number(x));
+            tauValue = engine.evaluate(tau);
+            sigmaValue = engine.evaluate(sigma);
+            weakening = tauValue.toNumber()+sigmaValue.toNumber();
+            return weakening;
             break;
         }
     case 2: //Li
         {
-            tau = "-(0.3411*Math.pow(10,-2))*X+(0.3088*10)*Math.pow(X,-1)-(0.1009*100)*Math.pow(X,-2)+(0.2076*1000)*Math.pow(X,-3)-(-0.4091*10)*Math.pow(X,-4)";
+            tau = "-(0.3411*Math.pow(10,-2))*X+(0.3088)*Math.pow(X,-1)-(0.1009*100)*Math.pow(X,-2)+(0.2076*1000)*Math.pow(X,-3)-(-0.4091*100)*Math.pow(X,-4)";
+            sigmaK = "(1+9.326*Math.pow(10,-2)*X)*Math.pow((1.781+8.725*0.1*X+7.963*0.01*Math.pow(X,2)+8.225*0.001*Math.pow(X,3)),-1)";
+            sigmaNK = "Math.pow((29.94*Math.pow(X,-1)+4.533+0.03637*X),-1)";
             tau.replace("X", QString::number(x));
-            QScriptEngine engine;
-            QScriptValue value = engine.evaluate(tau);
-            return value.toNumber();
+            sigmaK.replace("X", QString::number(x));
+            sigmaNK.replace("X", QString::number(x));
+            tauValue = engine.evaluate(tau);
+            sigmaKValue = engine.evaluate(sigmaK);
+            sigmaNKValue = engine.evaluate(sigmaNK);
+            weakening = tauValue.toNumber()+sigmaKValue.toNumber()+sigmaNKValue.toNumber();
+            return weakening;
             break;
         }
     case 3: //Be
@@ -271,9 +295,7 @@ double MainWindow::oslableniyeTau(double x)
         return value.toNumber();
         break;
     }
-
     }
-
 }
 
 void MainWindow::on_plot_clicked()
@@ -379,12 +401,12 @@ void MainWindow::on_plot_clicked()
                     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
                     {
                         x[i] = X;
-                        y1[i] = -X*X+oslableniyeTau(X);
+                        y1[i] = oslableniyeTau(X);
                         in << x[i] << "\t" << y1[i] << "\n";
                         i++;
                     }
                     x[i]=b;
-                    y1[i]=-b*b+oslableniyeTau(b);
+                    y1[i]=oslableniyeTau(b);
                     in << x[i] << "\t" << y1[i]  << "\n";
 
                     fileOut.close();
@@ -438,12 +460,12 @@ void MainWindow::on_plot_clicked()
                     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
                     {
                         x[i] = X;
-                        y2[i] = qExp(X/2)+oslableniyeTau(X);
+                        y2[i] = oslableniyeTau(X);
                         in << x[i] << "\t" << y2[i] << "\n";
                         i++;
                     }
                     x[i]=b;
-                    y2[i]=qExp(b/2)+oslableniyeTau(b);
+                    y2[i]=oslableniyeTau(b);
                     in << x[i] << "\t" << y2[i]  << "\n";
 
                     fileOut.close();

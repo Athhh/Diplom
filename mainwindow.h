@@ -60,9 +60,7 @@ private:
     double eqMass;
     double eqPlotnost;
 
-    QString tau;
-    double sigma;
-    double mu;
+    double weakening;
 
     double leftX,rightX;
     int counter = 0;
