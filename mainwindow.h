@@ -28,9 +28,9 @@ private slots:
 
     void mouseWheel();
 
-    void on_choose_clicked();
+    void on_choosePipe_clicked();
 
-    double oslableniyeTau(double X);
+    double oslableniyePipe(double X);
 
     void slotMousePress(QMouseEvent * event);
 
@@ -48,6 +48,24 @@ private slots:
 
     void on_removeAllGraphs_clicked();
 
+    void on_chooseFirst_clicked();
+
+    void on_chooseSecond_clicked();
+
+    void on_chooseThird_clicked();
+
+    void on_chooseEnv_clicked();
+
+    double on_voltage_editingFinished();
+
+    double on_current_editingFinished();
+
+    double on_targetThick_editingFinished();
+
+    double on_windowThick_editingFinished();
+
+    double on_distance_editingFinished();
+
 private:
     Ui::MainWindow *ui;
     QCPItemTracer *tracer;
@@ -56,13 +74,30 @@ private:
     QCPGraph *graph2;
     QCPGraph *graph3;
 
-    double eqNumber;
-    double eqMass;
-    double eqPlotnost;
+    double pipeNumber;
+    double pipeMass;
+    double pipePlotnost;
+
+    double firstNumber;
+    double firstMass;
+    double firstPlotnost;
+
+    double secondNumber;
+    double secondMass;
+    double secondPlotnost;
+
+    double thirdNumber;
+    double thirdMass;
+    double thirdPlotnost;
+
+    double envNumber;
+    double envMass;
+    double envPlotnost;
 
     double weakening;
 
     double leftX,rightX;
+    double voltage, current, targetThick, windowThick, distance;
     int counter = 0;
     int numberOfGraphs = 0;
 };

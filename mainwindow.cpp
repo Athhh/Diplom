@@ -85,14 +85,14 @@ void MainWindow::createLegend()
     //Второй график
 
     graph2 = ui->widget->addGraph();
-    graph2->setName(ui->material->currentText());
+    graph2->setName(ui->materialPipe->currentText());
     graph2->addToLegend();
     ui->widget->legend->itemWithPlottable(graph2)->setVisible(false);
 
     //Третий график
 
     graph3 = ui->widget->addGraph();
-    graph3->setName(ui->material->currentText());
+    graph3->setName(ui->materialPipe->currentText());
     graph3->addToLegend();
     ui->widget->legend->itemWithPlottable(graph3)->setVisible(false);
 
@@ -123,7 +123,37 @@ double MainWindow::on_rightX_editingFinished()
     return rightX;
 }
 
-void MainWindow::on_choose_clicked()
+double MainWindow::on_voltage_editingFinished()
+{
+    voltage = ui->voltage->text().toDouble();
+    return voltage;
+}
+
+double MainWindow::on_current_editingFinished()
+{
+    current = ui->current->text().toDouble();
+    return current;
+}
+
+double MainWindow::on_targetThick_editingFinished()
+{
+    targetThick = ui->targetThick->text().toDouble();
+    return targetThick;
+}
+
+double MainWindow::on_windowThick_editingFinished()
+{
+    windowThick = ui->windowThick->text().toDouble();
+    return windowThick;
+}
+
+double MainWindow::on_distance_editingFinished()
+{
+    distance = ui->distance->text().toDouble();
+    return distance;
+}
+
+void MainWindow::on_choosePipe_clicked()
 {
     QFile atomNumber(QCoreApplication::applicationDirPath() + "/Materials/atomniy_nomer.txt");
     QStringList number;
@@ -135,7 +165,7 @@ void MainWindow::on_choose_clicked()
         }
     }
 
-    eqNumber = number[ui->material->currentIndex()].toDouble();
+    pipeNumber = number[ui->materialPipe->currentIndex()].toDouble();
 
     atomNumber.close();
 
@@ -149,7 +179,7 @@ void MainWindow::on_choose_clicked()
         }
     }
 
-    eqMass = mass[ui->material->currentIndex()].toDouble();
+    pipeMass = mass[ui->materialPipe->currentIndex()].toDouble();
 
     atomMass.close();
 
@@ -163,12 +193,192 @@ void MainWindow::on_choose_clicked()
         }
     }
 
-    eqPlotnost = plotnost[ui->material->currentIndex()].toDouble();
+    pipePlotnost = plotnost[ui->materialPipe->currentIndex()].toDouble();
 
     atomPlotnost.close();
 }
 
-double MainWindow::oslableniyeTau(double x)
+void MainWindow::on_chooseFirst_clicked()
+{
+    QFile atomNumber(QCoreApplication::applicationDirPath() + "/Materials/atomniy_nomer.txt");
+    QStringList number;
+    if (atomNumber.open(QIODevice::ReadOnly))
+    {
+        while(!atomNumber.atEnd())
+        {
+            number << atomNumber.readLine();
+        }
+    }
+
+    firstNumber = number[ui->materialPipe->currentIndex()].toDouble();
+
+    atomNumber.close();
+
+    QFile atomMass(QCoreApplication::applicationDirPath() + "/Materials/atom_mass.txt");
+    QStringList mass;
+    if (atomMass.open(QIODevice::ReadOnly))
+    {
+        while(!atomMass.atEnd())
+        {
+            mass << atomMass.readLine();
+        }
+    }
+
+    firstMass = mass[ui->materialPipe->currentIndex()].toDouble();
+
+    atomMass.close();
+
+    QFile atomPlotnost(QCoreApplication::applicationDirPath() + "/Materials/plotnost.txt");
+    QStringList plotnost;
+    if (atomPlotnost.open(QIODevice::ReadOnly))
+    {
+        while(!atomPlotnost.atEnd())
+        {
+            plotnost << atomPlotnost.readLine();
+        }
+    }
+
+    firstPlotnost = plotnost[ui->materialPipe->currentIndex()].toDouble();
+
+    atomPlotnost.close();
+}
+
+void MainWindow::on_chooseSecond_clicked()
+{
+    QFile atomNumber(QCoreApplication::applicationDirPath() + "/Materials/atomniy_nomer.txt");
+    QStringList number;
+    if (atomNumber.open(QIODevice::ReadOnly))
+    {
+        while(!atomNumber.atEnd())
+        {
+            number << atomNumber.readLine();
+        }
+    }
+
+    secondNumber = number[ui->materialPipe->currentIndex()].toDouble();
+
+    atomNumber.close();
+
+    QFile atomMass(QCoreApplication::applicationDirPath() + "/Materials/atom_mass.txt");
+    QStringList mass;
+    if (atomMass.open(QIODevice::ReadOnly))
+    {
+        while(!atomMass.atEnd())
+        {
+            mass << atomMass.readLine();
+        }
+    }
+
+    secondMass = mass[ui->materialPipe->currentIndex()].toDouble();
+
+    atomMass.close();
+
+    QFile atomPlotnost(QCoreApplication::applicationDirPath() + "/Materials/plotnost.txt");
+    QStringList plotnost;
+    if (atomPlotnost.open(QIODevice::ReadOnly))
+    {
+        while(!atomPlotnost.atEnd())
+        {
+            plotnost << atomPlotnost.readLine();
+        }
+    }
+
+    secondPlotnost = plotnost[ui->materialPipe->currentIndex()].toDouble();
+
+    atomPlotnost.close();
+}
+
+void MainWindow::on_chooseThird_clicked()
+{
+    QFile atomNumber(QCoreApplication::applicationDirPath() + "/Materials/atomniy_nomer.txt");
+    QStringList number;
+    if (atomNumber.open(QIODevice::ReadOnly))
+    {
+        while(!atomNumber.atEnd())
+        {
+            number << atomNumber.readLine();
+        }
+    }
+
+    thirdNumber = number[ui->materialPipe->currentIndex()].toDouble();
+
+    atomNumber.close();
+
+    QFile atomMass(QCoreApplication::applicationDirPath() + "/Materials/atom_mass.txt");
+    QStringList mass;
+    if (atomMass.open(QIODevice::ReadOnly))
+    {
+        while(!atomMass.atEnd())
+        {
+            mass << atomMass.readLine();
+        }
+    }
+
+    thirdMass = mass[ui->materialPipe->currentIndex()].toDouble();
+
+    atomMass.close();
+
+    QFile atomPlotnost(QCoreApplication::applicationDirPath() + "/Materials/plotnost.txt");
+    QStringList plotnost;
+    if (atomPlotnost.open(QIODevice::ReadOnly))
+    {
+        while(!atomPlotnost.atEnd())
+        {
+            plotnost << atomPlotnost.readLine();
+        }
+    }
+
+    thirdPlotnost = plotnost[ui->materialPipe->currentIndex()].toDouble();
+
+    atomPlotnost.close();
+}
+
+void MainWindow::on_chooseEnv_clicked()
+{
+    QFile atomNumber(QCoreApplication::applicationDirPath() + "/Materials/atomniy_nomer.txt");
+    QStringList number;
+    if (atomNumber.open(QIODevice::ReadOnly))
+    {
+        while(!atomNumber.atEnd())
+        {
+            number << atomNumber.readLine();
+        }
+    }
+
+    envNumber = number[ui->materialPipe->currentIndex()].toDouble();
+
+    atomNumber.close();
+
+    QFile atomMass(QCoreApplication::applicationDirPath() + "/Materials/atom_mass.txt");
+    QStringList mass;
+    if (atomMass.open(QIODevice::ReadOnly))
+    {
+        while(!atomMass.atEnd())
+        {
+            mass << atomMass.readLine();
+        }
+    }
+
+    envMass = mass[ui->materialPipe->currentIndex()].toDouble();
+
+    atomMass.close();
+
+    QFile atomPlotnost(QCoreApplication::applicationDirPath() + "/Materials/plotnost.txt");
+    QStringList plotnost;
+    if (atomPlotnost.open(QIODevice::ReadOnly))
+    {
+        while(!atomPlotnost.atEnd())
+        {
+            plotnost << atomPlotnost.readLine();
+        }
+    }
+
+    envPlotnost = plotnost[ui->materialPipe->currentIndex()].toDouble();
+
+    atomPlotnost.close();
+}
+
+double MainWindow::oslableniyePipe(double x)
 {
     QString tau;
     //QString tau1;
@@ -185,7 +395,7 @@ double MainWindow::oslableniyeTau(double x)
     QScriptValue sigmaKValue;
     QScriptValue sigmaNKValue;
 
-    switch(ui->material->currentIndex())
+    switch(ui->materialPipe->currentIndex())
     {
     case 0: //Air
         {
@@ -401,7 +611,7 @@ void MainWindow::on_plot_clicked()
             //Вычисляем наши данные
                 else
                 {
-                    graph1->setName(ui->material->currentText());
+                    graph1->setName(ui->materialPipe->currentText());
 
                     QVector<double> x(N), y0(N);
 
@@ -416,13 +626,13 @@ void MainWindow::on_plot_clicked()
                         for (double X=a; fabs(X - b) >= 0.000000000001; X+= h)
                         {
                             x[i] = X;
-                            y0[i] = oslableniyeTau(X);
+                            y0[i] = oslableniyePipe(X);
                             qDebug()<< y0;
                             in << x[i] << "\t" << y0[i] << "\n";
                             i++;
                         }
                         x[i]=b;
-                        y0[i]=oslableniyeTau(b);
+                        y0[i]=oslableniyePipe(b);
                         in << x[i] << "\t" << y0[i]  << "\n";
 
                         fileOut.close();
@@ -460,7 +670,7 @@ void MainWindow::on_plot_clicked()
         //Вычисляем наши данные
             else
                 {
-                graph2->setName(ui->material->currentText());
+                graph2->setName(ui->materialPipe->currentText());
 
                 QVector<double> x(N), y1(N);
 
@@ -475,12 +685,12 @@ void MainWindow::on_plot_clicked()
                     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
                     {
                         x[i] = X;
-                        y1[i] = oslableniyeTau(X);
+                        y1[i] = oslableniyePipe(X);
                         in << x[i] << "\t" << y1[i] << "\n";
                         i++;
                     }
                     x[i]=b;
-                    y1[i]=oslableniyeTau(b);
+                    y1[i]=oslableniyePipe(b);
                     in << x[i] << "\t" << y1[i]  << "\n";
 
                     fileOut.close();
@@ -519,7 +729,7 @@ void MainWindow::on_plot_clicked()
             //Вычисляем наши данные
                 else
                 {
-                graph3->setName(ui->material->currentText());
+                graph3->setName(ui->materialPipe->currentText());
 
                 QVector<double> x(N), y2(N);
 
@@ -534,12 +744,12 @@ void MainWindow::on_plot_clicked()
                     for (double X=a; fabs(X - b) >= 0.00001; X+= h)
                     {
                         x[i] = X;
-                        y2[i] = oslableniyeTau(X);
+                        y2[i] = oslableniyePipe(X);
                         in << x[i] << "\t" << y2[i] << "\n";
                         i++;
                     }
                     x[i]=b;
-                    y2[i]=oslableniyeTau(b);
+                    y2[i]=oslableniyePipe(b);
                     in << x[i] << "\t" << y2[i]  << "\n";
 
                     fileOut.close();
@@ -672,3 +882,4 @@ void MainWindow::on_removeAllGraphs_clicked()
     ui->widget->replot();
     counter = 0;
 }
+
