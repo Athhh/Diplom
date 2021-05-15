@@ -200,8 +200,6 @@ double MainWindow::oslableniyeTau(double x)
             tau.replace("X", QString::number(x));
             tauValue = engine.evaluate(tau);
             weakening = tauValue.toNumber();
-            //-(0.1991*Math.pow(10,-2))*X+(0.1169)*Math.pow(X,-1)-(0.1514*100)*Math.pow(X,-2)+(0.4759*10000)*Math.pow(X,-3)-(0.9060*1000)*Math.pow(X,-4)
-            //-(0.3514*Math.pow(10,2))*Math.pow(X,-2)+(0.5059*10000)*Math.pow(X,-3)-(0.1060*1000)*Math.pow(X,-4)+Math.pow((26.44*Math.pow(X,-1)+4.724+0.01809*X),-1)
             return weakening;
             break;
         }
