@@ -78,6 +78,12 @@ private slots:
 
     double on_distance_editingFinished();
 
+    double on_firstThick_editingFinished();
+
+    double on_secondThick_editingFinished();
+
+    double on_thirdThick_editingFinished();
+
 private:
     Ui::MainWindow *ui;
     QCPItemTracer *tracer;
