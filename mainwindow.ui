@@ -20,7 +20,7 @@
       <x>610</x>
       <y>50</y>
       <width>681</width>
-      <height>571</height>
+      <height>531</height>
      </rect>
     </property>
    </widget>
@@ -34,16 +34,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>Координата:</string>
+     <string/>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>120</y>
-      <width>542</width>
-      <height>428</height>
+      <y>50</y>
+      <width>549</width>
+      <height>527</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -100,7 +100,7 @@
        <item>
         <widget class="QLabel" name="label_15">
          <property name="text">
-          <string>Введите ток трубки (мА):</string>
+          <string>Введите ток трубки (мкА):</string>
          </property>
         </widget>
        </item>
@@ -148,6 +148,43 @@
        </item>
        <item>
         <widget class="QLineEdit" name="distance"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_14">
+       <item>
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Выберите материал среды на пути пучка:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="materialEnv">
+         <item>
+          <property name="text">
+           <string>Воздух</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Вакуум</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="chooseEnv">
+         <property name="text">
+          <string>Выбрать</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -635,6 +672,51 @@
          <item>
           <property name="text">
            <string>Плутоний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Америций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кюрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Берклий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калифорний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эйнштейний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фермий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Менделевий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нобелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лоуренсий</string>
           </property>
          </item>
         </widget>
@@ -1134,6 +1216,51 @@
            <string>Плутоний</string>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>Америций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кюрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Берклий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калифорний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эйнштейний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фермий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Менделевий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нобелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лоуренсий</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
@@ -1142,6 +1269,20 @@
           <string>Выбрать</string>
          </property>
         </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_21">
+       <item>
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>Введите толщину первого фильтра (мкм):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="firstThick"/>
        </item>
       </layout>
      </item>
@@ -1631,6 +1772,51 @@
            <string>Плутоний</string>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>Америций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кюрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Берклий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калифорний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эйнштейний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фермий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Менделевий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нобелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лоуренсий</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
@@ -1639,6 +1825,20 @@
           <string>Выбрать</string>
          </property>
         </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_22">
+       <item>
+        <widget class="QLabel" name="label_21">
+         <property name="text">
+          <string>Введите толщину второго фильтра (мкм):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="secondThick"/>
        </item>
       </layout>
      </item>
@@ -2128,6 +2328,51 @@
            <string>Плутоний</string>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>Америций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кюрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Берклий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калифорний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эйнштейний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фермий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Менделевий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нобелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лоуренсий</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
@@ -2140,39 +2385,16 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_14">
+      <layout class="QHBoxLayout" name="horizontalLayout_23">
        <item>
-        <widget class="QLabel" name="label_11">
+        <widget class="QLabel" name="label_22">
          <property name="text">
-          <string>Выберите материал среды на пути пучка:</string>
+          <string>Введите толщину третьего фильтра (мкм):</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="materialEnv">
-         <item>
-          <property name="text">
-           <string>Воздух</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Гелий</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Вакуум</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="chooseEnv">
-         <property name="text">
-          <string>Выбрать</string>
-         </property>
-        </widget>
+        <widget class="QLineEdit" name="thirdThick"/>
        </item>
       </layout>
      </item>
@@ -2192,6 +2414,45 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="firstSum">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>600</y>
+      <width>171</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="secondSum">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>600</y>
+      <width>171</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="thirdSum">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>600</y>
+      <width>171</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -2200,7 +2461,7 @@
      <x>0</x>
      <y>0</y>
      <width>1313</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

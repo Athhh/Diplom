@@ -30,7 +30,19 @@ private slots:
 
     void on_choosePipe_clicked();
 
-    double oslableniyePipe(double X);
+    double oslableniyePipe(double x);
+
+    double oslableniyeFirst(double x);
+
+    double oslableniyeSecond(double x);
+
+    double oslableniyeThird(double x);
+
+    double oslableniyeEnv(double x);
+
+    double oslableniyeWindow(double x);
+
+    void character();
 
     void slotMousePress(QMouseEvent * event);
 
@@ -93,6 +105,12 @@ private:
     double envNumber;
     double envMass;
     double envPlotnost;
+
+    double firstThick;
+    double secondThick;
+    double thirdThick;
+
+    double EK,EKa,EKb,ELa,ELb,ELg,iKa,iKb;
 
     double weakening;
 
