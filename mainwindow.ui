@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1285</width>
-    <height>669</height>
+    <width>1313</width>
+    <height>683</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,34 +17,51 @@
    <widget class="QCustomPlot" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>610</x>
       <y>50</y>
-      <width>671</width>
-      <height>511</height>
+      <width>681</width>
+      <height>531</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="coord">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>600</y>
+      <width>461</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>230</y>
-      <width>402</width>
-      <height>169</height>
+      <x>20</x>
+      <y>50</y>
+      <width>549</width>
+      <height>527</height>
      </rect>
     </property>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Введите шаг:</string>
-       </property>
-      </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Введите шаг:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="acc"/>
+       </item>
+      </layout>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="acc"/>
-     </item>
-     <item row="1" column="0" colspan="2">
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QLabel" name="label_2">
@@ -68,20 +85,183 @@
        </item>
       </layout>
      </item>
-     <item row="2" column="0" colspan="2">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_17">
        <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="label_14">
          <property name="text">
-          <string>Выберите матриал:</string>
+          <string>Введите рабочее напряжение трубки(кВ):</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="material">
+        <widget class="QLineEdit" name="voltage"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>Введите ток трубки (мкА):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="current"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <item>
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Введите толщину прострельной мишени (мкм):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="targetThick"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_19">
+       <item>
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Введите толщину бериллиевого выпускного окна (мкм):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="windowThick"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_20">
+       <item>
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>Введите расстояние между фокусным пятном и образцом (мм):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="distance"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_14">
+       <item>
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Выберите материал среды на пути пучка:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="materialEnv">
          <item>
           <property name="text">
-           <string>Медь</string>
+           <string>Воздух</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Вакуум</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="chooseEnv">
+         <property name="text">
+          <string>Выбрать</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Выберите материал рентгеновской трубки:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="materialPipe">
+         <item>
+          <property name="text">
+           <string>Воздух</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Водород</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Литий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бериллий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Углерод</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Азот</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кислород</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фтор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Натрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Магний</string>
           </property>
          </item>
          <item>
@@ -91,13 +271,458 @@
          </item>
          <item>
           <property name="text">
+           <string>Кремний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фосфор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Сера</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Хлор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Аргон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кальций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Скандий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Титан</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ванадий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Хром</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Марганец</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>Железо</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кобальт</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Никель</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Медь</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цинк</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Галлий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Германий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Мышьяк</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Селен</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бром</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Криптон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рубидий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Стронций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иттрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цирконий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ниобий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Молибден</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Технеций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рутений</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Родий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Палладий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Серебро</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кадмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Индий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Олово</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Сурма</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Теллур</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иод</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ксенон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цезий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Барий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лантан</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Церий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Празеодим</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неодим</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Прометий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Самарий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Европий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гадолиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тербий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Диспрозий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гольмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эрбий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тулий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иттербий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лютеций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гафний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тантал</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Вольфрам</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рений</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Осмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иридий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Платина</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Золото</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ртуть</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Таллий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Свинец</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Висмут</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Полоний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Астат</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Радон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Франций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Радий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Актиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Торий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Проактиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Уран</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нептуний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Плутоний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Америций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кюрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Берклий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калифорний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эйнштейний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фермий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Менделевий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нобелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лоуренсий</string>
           </property>
          </item>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="choose">
+        <widget class="QPushButton" name="choosePipe">
          <property name="text">
           <string>Выбрать</string>
          </property>
@@ -105,53 +730,1741 @@
        </item>
       </layout>
      </item>
-     <item row="4" column="0" colspan="2">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Выберите материал первого фильтра:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="materialFirst">
+         <item>
+          <property name="text">
+           <string>Воздух</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Водород</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Литий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бериллий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Углерод</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Азот</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кислород</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фтор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Натрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Магний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Алюминий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кремний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фосфор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Сера</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Хлор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Аргон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кальций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Скандий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Титан</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ванадий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Хром</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Марганец</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Железо</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кобальт</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Никель</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Медь</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цинк</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Галлий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Германий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Мышьяк</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Селен</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бром</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Криптон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рубидий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Стронций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иттрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цирконий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ниобий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Молибден</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Технеций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рутений</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Родий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Палладий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Серебро</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кадмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Индий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Олово</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Сурма</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Теллур</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иод</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ксенон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цезий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Барий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лантан</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Церий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Празеодим</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неодим</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Прометий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Самарий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Европий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гадолиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тербий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Диспрозий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гольмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эрбий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тулий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иттербий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лютеций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гафний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тантал</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Вольфрам</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рений</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Осмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иридий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Платина</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Золото</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ртуть</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Таллий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Свинец</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Висмут</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Полоний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Астат</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Радон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Франций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Радий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Актиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Торий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Проактиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Уран</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нептуний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Плутоний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Америций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кюрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Берклий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калифорний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эйнштейний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фермий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Менделевий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нобелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лоуренсий</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="chooseFirst">
+         <property name="text">
+          <string>Выбрать</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_21">
+       <item>
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>Введите толщину первого фильтра (мкм):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="firstThick"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Выберите материал второго фильтра:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="materialSecond">
+         <item>
+          <property name="text">
+           <string>Воздух</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Водород</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Литий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бериллий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Углерод</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Азот</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кислород</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фтор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Натрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Магний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Алюминий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кремний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фосфор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Сера</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Хлор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Аргон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кальций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Скандий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Титан</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ванадий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Хром</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Марганец</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Железо</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кобальт</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Никель</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Медь</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цинк</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Галлий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Германий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Мышьяк</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Селен</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бром</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Криптон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рубидий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Стронций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иттрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цирконий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ниобий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Молибден</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Технеций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рутений</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Родий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Палладий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Серебро</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кадмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Индий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Олово</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Сурма</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Теллур</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иод</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ксенон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цезий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Барий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лантан</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Церий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Празеодим</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неодим</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Прометий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Самарий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Европий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гадолиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тербий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Диспрозий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гольмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эрбий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тулий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иттербий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лютеций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гафний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тантал</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Вольфрам</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рений</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Осмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иридий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Платина</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Золото</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ртуть</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Таллий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Свинец</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Висмут</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Полоний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Астат</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Радон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Франций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Радий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Актиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Торий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Проактиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Уран</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нептуний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Плутоний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Америций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кюрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Берклий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калифорний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эйнштейний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фермий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Менделевий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нобелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лоуренсий</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="chooseSecond">
+         <property name="text">
+          <string>Выбрать</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_22">
+       <item>
+        <widget class="QLabel" name="label_21">
+         <property name="text">
+          <string>Введите толщину второго фильтра (мкм):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="secondThick"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_13">
+       <item>
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Выберите материал третьего фильтра:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="materialThird">
+         <item>
+          <property name="text">
+           <string>Воздух</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Водород</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Литий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бериллий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Углерод</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Азот</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кислород</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фтор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Натрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Магний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Алюминий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кремний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фосфор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Сера</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Хлор</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Аргон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кальций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Скандий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Титан</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ванадий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Хром</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Марганец</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Железо</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кобальт</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Никель</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Медь</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цинк</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Галлий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Германий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Мышьяк</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Селен</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Бром</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Криптон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рубидий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Стронций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иттрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цирконий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ниобий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Молибден</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Технеций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рутений</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Родий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Палладий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Серебро</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кадмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Индий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Олово</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Сурма</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Теллур</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иод</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ксенон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Цезий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Барий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лантан</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Церий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Празеодим</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неодим</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Прометий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Самарий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Европий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гадолиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тербий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Диспрозий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гольмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эрбий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тулий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иттербий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лютеций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Гафний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Тантал</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Вольфрам</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Рений</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Осмий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Иридий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Платина</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Золото</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ртуть</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Таллий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Свинец</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Висмут</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Полоний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Астат</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Радон</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Франций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Радий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Актиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Торий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Проактиний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Уран</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нептуний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Плутоний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Америций</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Кюрий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Берклий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Калифорний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Эйнштейний</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Фермий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Менделевий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Нобелий</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Лоуренсий</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="chooseThird">
+         <property name="text">
+          <string>Выбрать</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_23">
+       <item>
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>Введите толщину третьего фильтра (мкм):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="thirdThick"/>
+       </item>
+      </layout>
+     </item>
+     <item>
       <widget class="QPushButton" name="plot">
        <property name="text">
         <string>Построить график</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0" colspan="2">
-      <widget class="QPushButton" name="set_visible">
+     <item>
+      <widget class="QPushButton" name="removeAllGraphs">
        <property name="text">
-        <string>Показать второй график</string>
+        <string>Очистить график</string>
        </property>
       </widget>
      </item>
     </layout>
    </widget>
-   <widget class="QLabel" name="coord">
+   <widget class="QLabel" name="firstSum">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>550</y>
-      <width>461</width>
+      <x>610</x>
+      <y>600</y>
+      <width>171</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Координата:</string>
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="secondSum">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>600</y>
+      <width>171</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="thirdSum">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>600</y>
+      <width>171</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1285</width>
-     <height>25</height>
+     <width>1313</width>
+     <height>20</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuWindow">
-    <property name="title">
-     <string>Window</string>
-    </property>
-   </widget>
-   <addaction name="menuWindow"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <customwidgets>
   <customwidget>
